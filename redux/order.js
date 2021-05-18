@@ -1,6 +1,6 @@
 import { createActions, createReducer } from 'reduxsauce'
 import Immutable from 'seamless-immutable'
-import { UserProfileTypes } from '../redux/user'
+import { UserProfileTypes } from './user'
 const { Types, Creators } = createActions({
   requestUserOrders: null,
   requestUserOrdersSuccess: ['payload'],

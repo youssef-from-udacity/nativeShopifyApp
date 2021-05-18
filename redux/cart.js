@@ -1,7 +1,7 @@
 import { createReducer, createActions } from 'reduxsauce'
 import Immutable from 'seamless-immutable'
 import { getMoneyFormat } from './shop'
-import { UserProfileTypes } from '../redux/user'
+import { UserProfileTypes } from './user'
 const { Types, Creators } = createActions({
     addNumberOfItems: null,
     requestCartDetail: null,
