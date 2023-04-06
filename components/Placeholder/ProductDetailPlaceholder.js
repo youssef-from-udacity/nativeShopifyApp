@@ -15,7 +15,7 @@ const Banner = props => {
 
   );
 };
-export const BannerPlaceholder = Placeholder.connect(Banner);
+export const BannerPlaceholder = (Banner);
 
 
 const Title = props => {
@@ -29,7 +29,7 @@ const Title = props => {
 
   );
 };
-ProductTitlePlaceholder = Placeholder.connect(Title);
+ProductTitlePlaceholder = (Title);
 const TitleLarge = props => {
   const style = { backgroundColor: '#e3e3e3', width: "80%", height:30, borderRadius: 5};
   return (
@@ -41,7 +41,7 @@ const TitleLarge = props => {
 
   );
 };
-ProductTitlePlaceholderLarge = Placeholder.connect(TitleLarge);
+ProductTitlePlaceholderLarge = (TitleLarge);
 
 const Desc = props => {
   const style = { backgroundColor: '#e3e3e3', width: "60%", height:15, borderRadius: 5};
@@ -54,7 +54,7 @@ const Desc = props => {
 
   );
 };
-ProductDescPlaceholder = Placeholder.connect(Desc);
+ProductDescPlaceholder = (Desc);
 
 export default customPlaceholder = props => {
   const style = { backgroundColor: '#e3e3e3', width: "100%", height:200};

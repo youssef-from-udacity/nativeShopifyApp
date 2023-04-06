@@ -274,7 +274,7 @@ const normalizeCartDetail = (graphQLCart) => {
         const quantity = node.quantity
         const variantTitle = node.variant.title
         const image = node.variant.image ? node.variant.image.originalSrc : null
-        const price = node.variant.price
+        const price = node.variant.price?.amount
         return({
             [id]: {
                 id: id,
@@ -303,8 +303,8 @@ const normalizeCartDetail = (graphQLCart) => {
             allIds: allProducts
         },
         shippingAddress: shippingAddress,
-        subTotalPrice: subTotalPrice,
-        totalPrice: totalPrice,
+        subTotalPrice: subTotalPrice?.amount,
+        totalPrice: totalPrice?.amount,
         webUrl: webUrl,
         ready: ready,
         numberOfItems: numberOfItems,

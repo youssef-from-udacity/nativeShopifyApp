@@ -1,7 +1,9 @@
 import { createReducer, createActions } from 'reduxsauce'
 import Immutable from 'seamless-immutable'
-import {SHOPIFY_URL, SHOPIFY_STOREFRONT_ACCESS_TOKEN} from '../config/application'
 import { theme } from '../constants/Theme'
+
+const SHOPIFY_URL= process.env.EXPO_PUBLIC_SHOPIFY_URL
+const SHOPIFY_STOREFRONT_ACCESS_TOKEN = process.env.EXPO_PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN
 
 const { Types, Creators } = createActions({
     setPrimaryColor: ['color'],

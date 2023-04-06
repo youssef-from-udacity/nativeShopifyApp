@@ -22,11 +22,8 @@ export class PaymentComponent extends React.Component {
         this.WebView.source = 'https://aslkdfjlasdfj.myshopify.com/account/logout'
     }
     
-    
-
     render() {
-        console.log('this.props.url ---- --- - -- ->',this.props.url)
-        console.log('this.props.userAccessToken ---- --- - -- ->',this.props.userAccessToken)
+
         return(
                 <WebView
                 source={{

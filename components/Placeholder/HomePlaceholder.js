@@ -11,7 +11,11 @@ const CollectionItem = props => {
     <View style={style}/>
   )
 };
-CollectionItemPlaceholder = Placeholder.connect(CollectionItem);
+  // @ts-ignore
+
+
+
+CollectionItemPlaceholder = (CollectionItem);
 
 const CollectionContainer = props => {
   const halfWidth = screenWidth * 0.5 - 10;
@@ -35,7 +39,7 @@ const Image = (props) => {
     </View>
   )
 }
-const ImagePlaceholder = Placeholder.connect(Image);
+const ImagePlaceholder = (Image);
 
 const Title = (props) => {
   return (
@@ -44,7 +48,7 @@ const Title = (props) => {
     </View>
   )
 }
-const TitlePlaceholder = Placeholder.connect(Title);
+const TitlePlaceholder = (Title);
 
 const SubTitle = (props) => {
   return (
@@ -53,7 +57,7 @@ const SubTitle = (props) => {
     </View>
   )
 }
-const SubTitlePlaceholder = Placeholder.connect(SubTitle);
+const SubTitlePlaceholder = (SubTitle);
 
 const Price = (props) => {
   return (
@@ -62,7 +66,7 @@ const Price = (props) => {
     </View>
   )
 }
-const PricePlaceholder = Placeholder.connect(Price);
+const PricePlaceholder = (Price);
 
 const ProductListContent = () => {
   return (

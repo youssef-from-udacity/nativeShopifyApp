@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, createRef } from 'react';
 import {
   Text,
   TouchableWithoutFeedback,
@@ -67,6 +67,8 @@ class Search extends PureComponent {
       this.props.shadowOpacityCollapsed
     );
     this.shadowHeight = this.props.shadowOffsetHeightCollapsed;
+    this.input_keyword = createRef();
+    this.searchContainer = createRef();
   }
 
   componentDidMount() {
@@ -80,11 +82,9 @@ class Search extends PureComponent {
   // Required to support both react-native =>0.62 and <0.62
   getInputRef() {
 
-    const { input_keyword } = this.refs
-
-    return !!input_keyword._component
+    return !!this.input_keyword._component
       ? _component // <0.62
-      : input_keyword // =>0.62
+      : this.input_keyword // =>0.62
   }
 
   onLayout = event => {
@@ -233,36 +233,36 @@ class Search extends PureComponent {
         this.props.keyboardShouldPersist === false ? Keyboard.dismiss() : null,
         Animated.timing(this.inputFocusWidthAnimated, {
           toValue: this.contentWidth - 10,
-          duration: 0,
+          duration: 20,
           useNativeDriver: false
         }).start(),
         Animated.timing(this.btnCancelAnimated, {
           toValue: this.contentWidth,
-          duration: 0,
+          duration: 200,
           useNativeDriver: false
         }).start(),
         this.props.keyboardShouldPersist === false
           ? Animated.timing(this.inputFocusPlaceholderAnimated, {
               toValue: this.middleWidth - this.props.placeholderCollapsedMargin,
-              duration: 0,
+              duration: 200,
               useNativeDriver: false
             }).start()
           : null,
         this.props.keyboardShouldPersist === false || isForceAnim === true
           ? Animated.timing(this.iconSearchAnimated, {
               toValue: this.middleWidth - this.props.searchIconCollapsedMargin,
-              duration: 0,
+              duration: 200,
               useNativeDriver: false
             }).start()
           : null,
         Animated.timing(this.iconDeleteAnimated, {
           toValue: 0,
-          duration: 0,
+          duration: 200,
           useNativeDriver: false
         }).start(),
         Animated.timing(this.shadowOpacityAnimated, {
           toValue: this.props.shadowOpacityCollapsed,
-          duration: 0,
+          duration: 200,
           useNativeDriver: false
         }).start()
       ]);
@@ -276,7 +276,7 @@ class Search extends PureComponent {
     const styles = getStyles(this.props.inputHeight, isRtl);
     return (
       <Animated.View
-        ref="searchContainer"
+        ref={this.searchContainer}
         style={[
           styles.container,
           this.props.backgroundColor && {
@@ -286,7 +286,7 @@ class Search extends PureComponent {
         onLayout={this.onLayout}
       >
         <AnimatedTextInput
-          ref="input_keyword"
+          ref={this.input_keyword}
           style={[
             styles.input,
             this.props.placeholderTextColor && {

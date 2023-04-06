@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyledSafeAreaView } from '../components/Styled'
 import { View, Text } from 'react-native'
+import { Dimensions } from 'react-native';
 import { connect } from 'react-redux'
 import ProductListActions from '../redux/productList'
 import ProductListContainer from '../containers/ProductList'
@@ -25,10 +26,15 @@ class ProductList extends React.Component {
   }
 
   componentDidMount() {
+    const screenWidth = Dimensions.get('window').width - 80
     this.props.navigation.setOptions({
       headerShown: true,
+      headerBackVisible: false,
+      headerTitleAlign: 'left',
       headerTitle: ()=>{
-        return <SearchContainer defaultValue="" searchPressed={this.searchPressed} beforeFocusSearch={this.beforeFocus} afterCancel={this.afterCancel} />
+        return <View style={{width: screenWidth}}>
+          <SearchContainer defaultValue="" searchPressed={this.searchPressed} beforeFocusSearch={this.beforeFocus} afterCancel={this.afterCancel} />
+        </View>
       },
     });
     

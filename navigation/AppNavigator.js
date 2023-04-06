@@ -1,4 +1,4 @@
-import { createStackNavigator } from '@react-navigation/stack';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
 import MainTabNavigator from './MainTabNavigator';
 import React from 'react';
@@ -116,7 +116,7 @@ const OrderScreenStack = () => {
     </Stack.Navigator>
   );
 };
-const Stack = createStackNavigator();     
+const Stack = createNativeStackNavigator();     
 
 const AppNavigator = () => {
   return (
@@ -124,7 +124,9 @@ const AppNavigator = () => {
       <Stack.Navigator
         screenOptions={{
           headerShown: false,
-          animationEnabled: false,
+          //animationEnabled: false,
+          animation: 'slide_from_right',
+          presentation: 'card'
         }}>
         <Stack.Screen name="Main" component={MainTabNavigator} />
         <Stack.Screen name="Product" component={ProductDetailStack} />

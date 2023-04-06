@@ -54,7 +54,6 @@ class Login extends React.Component {
     if(this.props.isLogin === true && prevProps.isLogin === false){
       
       const isFromShoppingCart = this.props.route?.params?.ShoppingCartScreen || false;
-      console.log('ShoppingCartScreen -- -- - --- -- -- -- >',isFromShoppingCart)
       if(isFromShoppingCart){
         this.navigateToPayment()
       }else{

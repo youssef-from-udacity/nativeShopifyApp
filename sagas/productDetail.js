@@ -22,10 +22,13 @@ export function* fetchProductDetailByHandle(action) {
     const config = yield select(getConfig)
     const response = yield call(getProductByHandle, config, handle)
     const payload = yield response.json()
+    
     if (response.ok) {
-        if(payload.data.product){
-            yield put(ProductDetailAction.requestProductDetailSuccess(payload.data.product))
-        }else{
+
+      if(payload.data.productByHandle){
+        yield put(ProductDetailAction.requestProductDetailSuccess(payload.data.productByHandle))
+      }else{
+
             Alert.alert(
                 'Product does not exists.',
                 'The product is not available on the app.',

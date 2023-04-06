@@ -11,8 +11,10 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { getSelectedVariant, getSelectedCount } from '../redux/productDetail';
 import {getConfig} from '../redux/config'
 export function* fetchCartDetail() {
+
     const cartId = yield select(getId)
     const config = yield select(getConfig)
+
 
     try{
       const response =  yield call(getCheckout, config, cartId)
@@ -34,6 +36,7 @@ export function* fetchCartDetail() {
             yield put(CartActions.requestCartDetailFail())
         }
     }catch(e){
+
         yield put(CartActions.requestCartDetailFail())
         console.log(e)
     }
@@ -142,27 +145,27 @@ export function* requestAddEmailAddress(action) {
     }
 }
 export function* setAddressToCheckout(action) {
-    const cartId = yield select(getId) 
-    const defaultAddressId = yield select(getDefaultAddressId)
-    const isLogin = yield select(getIsLogin)
-    const cartAddress = yield select(getShippingAddress)
-    const config =  yield select(getConfig)
-    try{
-        if(isLogin && cartId && defaultAddressId && !cartAddress){
-            const address = yield select(getAddressById, defaultAddressId)
-            try{
-                const response = yield call(addAddresstoCheckout, config, address, cartId)
-                const payload = yield response.json()
-                if(response.ok){
-                    yield put(CartActions.setAddressToCheckoutSuccess()) 
-                }else{
-                    yield put(CartActions.setAddressToCheckoutFail())
-                }
-            }catch(e){
-                console.log(e)
-            }
+  const cartId = yield select(getId) 
+  const defaultAddressId = yield select(getDefaultAddressId)
+  const isLogin = yield select(getIsLogin)
+  const cartAddress = yield select(getShippingAddress)
+  const config =  yield select(getConfig)
+  try{
+    if(isLogin && cartId && defaultAddressId && !cartAddress){
+      const address = yield select(getAddressById, defaultAddressId)
+      try{
+        const response = yield call(addAddresstoCheckout, config, address, cartId)
+        const payload = yield response.json()
+        if(response.ok){
+          yield put(CartActions.setAddressToCheckoutSuccess()) 
+        }else{
+          yield put(CartActions.setAddressToCheckoutFail())
         }
-    }catch(e){
+      }catch(e){
+        console.log(e)
+      }
+    }
+  }catch(e){
             yield put(CartActions.setAddressToCheckoutFail())
             console.log(e)
     }

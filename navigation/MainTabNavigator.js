@@ -1,5 +1,5 @@
 import React from 'react';
-import { createStackNavigator } from '@react-navigation/stack';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import TabBarBottomContainer from '../containers/TabBarBottom';
 import HomeScreen from '../screens/HomeScreen';
@@ -11,7 +11,7 @@ import Icon from '../containers/Icon'
 import HeaderBackButton from '../containers/HeaderBackButton'
 
 const Tab = createBottomTabNavigator();
-const Stack = createStackNavigator();
+const Stack = createNativeStackNavigator();
 
 const AccountStack = () => {
   return (
@@ -50,7 +50,7 @@ const MainStack = () => {
         tabBarLabel: 'Home',
         tabBarIcon: ({ focused }) => (<Icon
           focused={focused}
-          name='md-home'
+          name='home'
           icon='Ionicon'
         />
         )

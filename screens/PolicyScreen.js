@@ -2,11 +2,10 @@ import React from 'react';
 import { ScrollView, SafeAreaView, SectionList, Text, View, TouchableOpacity, Alert } from 'react-native'
 import { theme } from '../constants/Theme'
 import { connect } from 'react-redux'
-
-import { SHOPIFY_STOREFRONT_ACCESS_TOKEN, SHOPIFY_URL } from '../config/application'
 import { getShopUrl } from '../redux/shop'
 import { WebView } from 'react-native-webview';
 
+const SHOPIFY_STOREFRONT_ACCESS_TOKEN= process.env.EXPO_PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN
 
 class Policy extends React.Component {
   static navigationOptions = ({ navigation }) => ({

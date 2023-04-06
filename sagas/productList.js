@@ -10,7 +10,9 @@ export function* fetchProductListBySearch(action) {
     const config = yield select(getConfig)
     try {
         const response = yield call(getProductListBySearch, config, search, cursor, sortKey, reverse)
+
         const payload = yield response.json()
+
         if (response.ok) {
             if (payload.data.products.edges.length > 0) {
                 yield put(ProductListActions.requestProductListFromCollectionSuccess(payload.data))

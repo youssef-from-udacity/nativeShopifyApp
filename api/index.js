@@ -1,87 +1,108 @@
 import { jsonToGraphQLQuery, EnumType } from 'json-to-graphql-query';
-import { SHOPIFY_URL, SHOPIFY_STOREFRONT_ACCESS_TOKEN } from '../config/application'
+import {
+  Animated
+} from 'react-native';
+
+const SHOPIFY_STOREFRONT_ACCESS_TOKEN = process.env.EXPO_PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN
+const SHOPIFY_URL = process.env.EXPO_PUBLIC_SHOPIFY_URL
+
 
 const fetchShopifyGraphql = (config, body) => {
-    return fetch(config.baseUrl + '/api/graphql', {
-        method: 'POST',
-        headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/graphql',
-            'X-Shopify-Storefront-Access-Token': config.shopifyStoreAccessToken
-        },
-        body: body,
-    })
+  return fetch(config.baseUrl + '/api/graphql', {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/graphql',
+      'X-Shopify-Storefront-Access-Token': config.shopifyStoreAccessToken
+    },
+    body: body,
+  })
+}
+const fetchShopifyGraphql2 = (config, data) => {
+
+  return fetch(config.baseUrl + '/api/graphql', {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      'Content-Length': data.length,
+      'X-Shopify-Storefront-Access-Token': config.shopifyStoreAccessToken
+    },
+    body: data,
+  })
 }
 
 const fetchShopify = (path) => {
-    return fetch(SHOPIFY_URL + `/admin/${path}`, {
-        method: 'GET',
-        headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/graphql',
-            'X-Shopify-Storefront-Access-Token': SHOPIFY_STOREFRONT_ACCESS_TOKEN
-        },
-    })
+  return fetch(SHOPIFY_URL + `/admin/${path}`, {
+    method: 'GET',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/graphql',
+      'X-Shopify-Storefront-Access-Token': SHOPIFY_STOREFRONT_ACCESS_TOKEN
+    },
+  })
 }
 
 
 export const getProduct = (config, id) => {
-    const query = {
-        node: {
-            __args: {
-                id: id
-            },
-            __on: {
-                __typeName: "Product",
-                title: true,
-                descriptionHtml: true,
-                description: true,
-                id: true,
-                availableForSale: true,
-                productType: true,
-                images: {
-                    __args: {
-                        first: 250
-                    },
-                    edges: {
-                        node: {
-                            id: true,
-                            originalSrc: true
-                        }
-                    }
-                },
-                variants: {
-                    __args: {
-                        first: 100
-                    },
-                    edges: {
-                        node: {
-                            id: true,
-                            price: true,
-                            availableForSale: true,
-                            title: true,
-                            image: {
-                                id: true
-                            },
-                            selectedOptions: {
-                                name: true,
-                                value: true
-                            }
-                        }
-                    }
-                }
+  const query = {
+    node: {
+      __args: {
+        id: id
+      },
+      __on: {
+        __typeName: "Product",
+        title: true,
+        descriptionHtml: true,
+        description: true,
+        id: true,
+        availableForSale: true,
+        productType: true,
+        images: {
+          __args: {
+            first: 250
+          },
+          edges: {
+            node: {
+              id: true,
+              originalSrc: true
             }
+          }
+        },
+        variants: {
+          __args: {
+            first: 100
+          },
+          edges: {
+            node: {
+              id: true,
+              price: {
+                amount:true
+              },
+              availableForSale: true,
+              title: true,
+              image: {
+                id: true
+              },
+              selectedOptions: {
+                name: true,
+                value: true
+              }
+            }
+          }
         }
+      }
     }
-    const graphQLQuery = '{' + jsonToGraphQLQuery(query, { pretty: true }) + '}'
-    return fetchShopifyGraphql(config, graphQLQuery)
+  }
+  const graphQLQuery = '{' + jsonToGraphQLQuery(query, { pretty: true }) + '}'
+  return fetchShopifyGraphql(config, graphQLQuery)
 }
 
 
 
 export const getProductByHandle = (config, handle) => {
-    const query = `{
-      product(handle: "${handle}") {
+  const query = `{
+    productByHandle(handle: "${handle}") {
         title
         descriptionHtml
         description
@@ -100,7 +121,10 @@ export const getProductByHandle = (config, handle) => {
           edges {
             node {
               id
-              price
+              price {
+                amount
+                currencyCode
+            }
               availableForSale
               title
               image {
@@ -116,158 +140,162 @@ export const getProductByHandle = (config, handle) => {
       }
     }
     `
-    return fetchShopifyGraphql(config, query)
+  return fetchShopifyGraphql(config, query)
 }
 
 export const getProductFromCollection = (config, id, cursor, sortKey, reverse) => {
 
-    const query = {
-        node: {
-            __args: {
-                id: id
-            },
-            __on: {
-                __typeName: "Collection",
-                title: true,
-                id: true,
-                products: {
-                    __args: {
-                        first: 10,
-                        after: cursor ? cursor : null,
-                        sortKey: sortKey ? new EnumType(sortKey) : null,
-                        reverse: reverse ? reverse : null
-                    },
-                    edges: {
-                        cursor: true,
-                        node: {
-                            id: true,
-                            title: true,
-                            priceRange: {
-                                maxVariantPrice: {
-                                    amount: true,
-                                    currencyCode: true,
-                                },
-                                minVariantPrice: {
-                                    amount: true,
-                                    currencyCode: true,
-                                },
-                            },
-                            images: {
-                                __args: {
-                                    first: 1
-                                },
-                                edges: {
-                                    node: {
-                                        originalSrc: true
-                                    }
-                                }
-                            },
-                        }
-                    }
+  const query = {
+    node: {
+      __args: {
+        id: id
+      },
+      __on: {
+        __typeName: "Collection",
+        title: true,
+        id: true,
+        products: {
+          __args: {
+            first: 10,
+            after: cursor ? cursor : null,
+            sortKey: sortKey ? new EnumType(sortKey) : null,
+            reverse: reverse ? reverse : null
+          },
+          edges: {
+            cursor: true,
+            node: {
+              id: true,
+              title: true,
+              priceRange: {
+                maxVariantPrice: {
+                  amount: true,
+                  currencyCode: true,
+                },
+                minVariantPrice: {
+                  amount: true,
+                  currencyCode: true,
+                },
+              },
+              images: {
+                __args: {
+                  first: 1
+                },
+                edges: {
+                  node: {
+                    originalSrc: true
+                  }
                 }
+              },
             }
+          }
         }
+      }
     }
-    const graphQLQuery = '{' + jsonToGraphQLQuery(query, { pretty: true }) + '}'
-    return fetchShopifyGraphql(config, graphQLQuery)
+  }
+  const graphQLQuery = '{' + jsonToGraphQLQuery(query, { pretty: true }) + '}'
+  return fetchShopifyGraphql(config, graphQLQuery)
 }
 
 
 export const getProductFromCollectionByHandle = (config, handle, cursor, sortKey, reverse) => {
 
-    const query = {
-        collectionByHandle: {
-            __args: {
-                handle: handle
-            },
-            title: true,
+  const query = {
+    collectionByHandle: {
+      __args: {
+        handle: handle
+      },
+      title: true,
+      id: true,
+      products: {
+        __args: {
+          first: 30,
+          after: cursor ? cursor : null,
+          sortKey: sortKey ? new EnumType(sortKey) : null,
+          reverse: reverse ? reverse : null
+        },
+        edges: {
+          cursor: true,
+          node: {
             id: true,
-            products: {
-                __args: {
-                    first: 30,
-                    after: cursor ? cursor : null,
-                    sortKey: sortKey ? new EnumType(sortKey) : null,
-                    reverse: reverse ? reverse : null
-                },
-                edges: {
-                    cursor: true,
-                    node: {
-                        id: true,
-                        title: true,
-                        priceRange: {
-                            maxVariantPrice: {
-                                amount: true,
-                                currencyCode: true,
-                            },
-                            minVariantPrice: {
-                                amount: true,
-                                currencyCode: true,
-                            },
-                        },
-                        images: {
-                            __args: {
-                                first: 1
-                            },
-                            edges: {
-                                node: {
-                                    originalSrc: true
-                                }
-                            }
-                        },
-                    }
+            title: true,
+            priceRange: {
+              maxVariantPrice: {
+                amount: true,
+                currencyCode: true,
+              },
+              minVariantPrice: {
+                amount: true,
+                currencyCode: true,
+              },
+            },
+            images: {
+              __args: {
+                first: 1
+              },
+              edges: {
+                node: {
+                  originalSrc: true
                 }
-            }
-
+              }
+            },
+          }
         }
+      }
+
     }
-    const graphQLQuery = '{' + jsonToGraphQLQuery(query, { pretty: true }) + '}'
-    return fetchShopifyGraphql(config, graphQLQuery)
+  }
+  const graphQLQuery = '{' + jsonToGraphQLQuery(query, { pretty: true }) + '}'
+  return fetchShopifyGraphql(config, graphQLQuery)
 }
 
 export const getProductListBySearch = (config, search, cursor, sortKey, reverse) => {
 
-    const query = {
-        products: {
+  const after = cursor ? cursor : null;
+  const sortByKey = sortKey ? new EnumType(sortKey) : null;
+  const isReverse = Boolean(reverse);
+  console.log('cursor: ', cursor, "sortKey: ", sortKey, 'new EnumType(sortKey)  :', new EnumType(sortKey), 'reverse: ', reverse)
+  const query = {
+    products: {
+      __args: {
+        first: 30,
+        query: `${search}`,
+        after: cursor ? cursor : null,
+        sortKey: sortKey ? new EnumType(sortKey) : null,
+        reverse: reverse ? reverse : null
+      },
+      edges: {
+        cursor: true,
+        node: {
+          id: true,
+          title: true,
+          priceRange: {
+            maxVariantPrice: {
+              amount: true,
+              currencyCode: true,
+            },
+            minVariantPrice: {
+              amount: true,
+              currencyCode: true,
+            },
+          },
+          images: {
             __args: {
-                first: 30,
-                query: `${search}`,
-                after: cursor ? cursor : null,
-                sortKey: sortKey ? new EnumType(sortKey) : null,
-                reverse: reverse ? reverse : null
+              first: 1
             },
             edges: {
-                cursor: true,
-                node: {
-                    id: true,
-                    title: true,
-                    priceRange: {
-                        maxVariantPrice: {
-                            amount: true,
-                            currencyCode: true,
-                        },
-                        minVariantPrice: {
-                            amount: true,
-                            currencyCode: true,
-                        },
-                    },
-                    images: {
-                        __args: {
-                            first: 1
-                        },
-                        edges: {
-                            node: {
-                                originalSrc: true
-                            }
-                        }
-                    },
-                }
+              node: {
+                originalSrc: true
+              }
             }
+          },
         }
-
-
+      }
     }
-    const myQuery = `query($search: "${search}", $cursor: ${cursor ? cursor : null}, $sortKey: ${sortKey ? new EnumType(sortKey) : null}, $reverse: ${reverse ? reverse : null}) {
-      products(first: 30, query: $search, after: $cursor, sortKey: $sortKey, reverse: $reverse) {
+
+
+  }
+  const myQuery = `query ProductSearchQuery($search: String!, $after: String){
+      products(first: 30, query: $search, after: $after) {
         edges {
           cursor
           node {
@@ -293,10 +321,16 @@ export const getProductListBySearch = (config, search, cursor, sortKey, reverse)
           }
         }
       }
-    }
+    }    
     `
-    const graphQLQuery = '{' + jsonToGraphQLQuery(query, { pretty: true }) + '}'
-    return fetchShopifyGraphql(config, myQuery)
+  const graphQLQuery = '{' + jsonToGraphQLQuery(query, { pretty: true }) + '}'
+  return fetchShopifyGraphql2(config, JSON.stringify({
+    query: myQuery,
+    variables: {
+      search: search,
+      after: after
+    }
+  }))
 }
 const collectionsQuery = `query {
   shop: shop {
@@ -388,18 +422,22 @@ const collectionsQuery = `query {
 }
 `
 export const getCollections = (config) => {
-    
-    return fetchShopifyGraphql(config, collectionsQuery)
+
+  return fetchShopifyGraphql(config, collectionsQuery)
 }
 
 export const getCheckout = (config, id) => {
 
-    const query = `query($checkoutId: ID = "${id}"){
+  const query = `query($checkoutId: ID = "${id}"){
       node(id: $checkoutId) {
         ... on Checkout {
           id
-          totalPrice
-          subtotalPrice
+          totalPrice {
+            amount
+          }
+          subtotalPrice {
+            amount
+          }
           webUrl
           shippingAddress {
             address1
@@ -418,7 +456,9 @@ export const getCheckout = (config, id) => {
                 variant {
                   title
                   id
-                  price
+                  price {
+                    amount
+                  }
                   image {
                     originalSrc
                   }
@@ -433,167 +473,167 @@ export const getCheckout = (config, id) => {
       }
     }   
     `
-    return fetchShopifyGraphql(config, query)
+  return fetchShopifyGraphql(config, query)
 }
 
 export const getShopDetail = (config) => {
-    const query = {
-        shop: {
-            moneyFormat: true,
-            name: true,
-            primaryDomain: {
-                url: true,
-            },
+  const query = {
+    shop: {
+      moneyFormat: true,
+      name: true,
+      primaryDomain: {
+        url: true,
+      },
 
-        }
     }
-    const graphQLQuery = '{' + jsonToGraphQLQuery(query, { pretty: true }) + '}'
-    return fetchShopifyGraphql(config, graphQLQuery)
+  }
+  const graphQLQuery = '{' + jsonToGraphQLQuery(query, { pretty: true }) + '}'
+  return fetchShopifyGraphql(config, graphQLQuery)
 }
 
 export const getCustomerAddress = (config, customerAccessToken) => {
-    const query = {
-        customer: {
-            __args: {
-                customerAccessToken: customerAccessToken
-            },
-            defaultAddress: {
-                id: true
-            },
-            addresses: {
-                __args: {
-                    first: 10
-                },
-                edges: {
-                    node: {
-                        id: true,
-                        address1: true,
-                        address2: true,
-                        city: true,
-                        country: true,
-                        firstName: true,
-                        lastName: true,
-                        province: true,
-                        zip: true,
-                    }
-                }
-            },
+  const query = {
+    customer: {
+      __args: {
+        customerAccessToken: customerAccessToken
+      },
+      defaultAddress: {
+        id: true
+      },
+      addresses: {
+        __args: {
+          first: 10
+        },
+        edges: {
+          node: {
+            id: true,
+            address1: true,
+            address2: true,
+            city: true,
+            country: true,
+            firstName: true,
+            lastName: true,
+            province: true,
+            zip: true,
+          }
         }
+      },
     }
-    const graphQLQuery = '{' + jsonToGraphQLQuery(query, { pretty: true }) + '}'
-    return fetchShopifyGraphql(config, graphQLQuery)
+  }
+  const graphQLQuery = '{' + jsonToGraphQLQuery(query, { pretty: true }) + '}'
+  return fetchShopifyGraphql(config, graphQLQuery)
 }
 export const getOrderList = (config, cursor, customerAccessToken) => {
-    const query = {
-        customer: {
-            __args: {
-                customerAccessToken: customerAccessToken
-            },
-            orders: {
-                __args: {
-                    first: 10,
-                    after: cursor ? cursor : null,
-                },
-                edges: {
-                    cursor: true,
-                    node: {
-                        totalPrice: true,
-                        orderNumber: true,
-                        name: true,
-                        processedAt: true,
-                        customerUrl: true,
-                        id: true,
-                        lineItems: {
-                            __args: {
-                                first: 10
-                            },
-                            edges: {
-                                node: {
-                                    title: true,
-                                    quantity: true,
-                                    variant: {
-                                        title: true
-                                    }
-                                }
-                            }
-                        },
-                        shippingAddress: {
-                            id: true,
-                            address1: true,
-                            address2: true,
-                            city: true,
-                            country: true,
-                            firstName: true,
-                            lastName: true,
-                            province: true,
-                            zip: true,
-                        }
-                    }
+  const query = {
+    customer: {
+      __args: {
+        customerAccessToken: customerAccessToken
+      },
+      orders: {
+        __args: {
+          first: 10,
+          after: cursor ? cursor : null,
+        },
+        edges: {
+          cursor: true,
+          node: {
+            totalPrice: true,
+            orderNumber: true,
+            name: true,
+            processedAt: true,
+            customerUrl: true,
+            id: true,
+            lineItems: {
+              __args: {
+                first: 10
+              },
+              edges: {
+                node: {
+                  title: true,
+                  quantity: true,
+                  variant: {
+                    title: true
+                  }
                 }
+              }
             },
-
+            shippingAddress: {
+              id: true,
+              address1: true,
+              address2: true,
+              city: true,
+              country: true,
+              firstName: true,
+              lastName: true,
+              province: true,
+              zip: true,
+            }
+          }
         }
+      },
+
     }
-    const graphQLQuery = '{' + jsonToGraphQLQuery(query, { pretty: true }) + '}'
-    return fetchShopifyGraphql(config, graphQLQuery)
+  }
+  const graphQLQuery = '{' + jsonToGraphQLQuery(query, { pretty: true }) + '}'
+  return fetchShopifyGraphql(config, graphQLQuery)
 }
 export const getOrderDetail = (config, id, customerAccessToken) => {
-    const query = {
+  const query = {
+    node: {
+      __args: {
+        id: id,
+      },
+      __on: {
+        __typeName: "Order",
+        totalPrice: true,
+        orderNumber: true,
+        name: true,
+        processedAt: true,
+        customerUrl: true,
+        subtotalPrice: true,
+        totalShippingPrice: true,
+        totalTax: true,
+        id: true,
+        lineItems: {
+          __args: {
+            first: 20
+          },
+          edges: {
+            cursor: true,
             node: {
-                __args: {
-                    id: id,
-                },
-                __on: {
-                    __typeName: "Order",
-                        totalPrice: true,
-                        orderNumber: true,
-                        name: true,
-                        processedAt: true,
-                        customerUrl: true,
-                        subtotalPrice: true,
-                        totalShippingPrice: true,
-                        totalTax: true,
-                        id: true,
-                        lineItems: {
-                            __args: {
-                                first: 20
-                            },
-                            edges: {
-                                cursor: true,
-                                node: {
-                                    title: true,
-                                    quantity: true,
-                                    variant: {
-                                        title: true
-                                    }
-                                }
-                            }
-                        },
-                        shippingAddress: {
-                            id: true,
-                            address1: true,
-                            address2: true,
-                            city: true,
-                            country: true,
-                            firstName: true,
-                            lastName: true,
-                            province: true,
-                            zip: true,
-                        }
-                    
-                },
-            },
-    }
-    const graphQLQuery = '{' + jsonToGraphQLQuery(query, { pretty: true }) + '}'
-    return fetchShopifyGraphql(config, graphQLQuery)
+              title: true,
+              quantity: true,
+              variant: {
+                title: true
+              }
+            }
+          }
+        },
+        shippingAddress: {
+          id: true,
+          address1: true,
+          address2: true,
+          city: true,
+          country: true,
+          firstName: true,
+          lastName: true,
+          province: true,
+          zip: true,
+        }
+
+      },
+    },
+  }
+  const graphQLQuery = '{' + jsonToGraphQLQuery(query, { pretty: true }) + '}'
+  return fetchShopifyGraphql(config, graphQLQuery)
 }
 
 export const createCheckout = (config) => {
-    const mutation = 'mutation {checkoutCreate(input: { lineItems: [] }) { checkout { id webUrl } } }'
-    return fetchShopifyGraphql(config, mutation)
+  const mutation = 'mutation {checkoutCreate(input: { lineItems: [] }) { checkout { id webUrl } } }'
+  return fetchShopifyGraphql(config, mutation)
 }
 export const addProductToCheckout = (config, variantId, quantity, checkoutId) => {
-    const mutation = `mutation {
+  const mutation = `mutation {
         checkoutLineItemsAdd(lineItems: [{ variantId: "${variantId}", quantity: ${quantity} }], checkoutId: "${checkoutId}",
         ) {
           checkout {
@@ -610,11 +650,11 @@ export const addProductToCheckout = (config, variantId, quantity, checkoutId) =>
           }
         }
       }`
-    return fetchShopifyGraphql(config, mutation)
+  return fetchShopifyGraphql(config, mutation)
 }
 
 export const removeProductFromCheckout = (config, lineItemId, checkoutId) => {
-    const mutation = `mutation {
+  const mutation = `mutation {
         checkoutLineItemsRemove(lineItemIds: "${lineItemId}", checkoutId: "${checkoutId}",
         ) {
           checkout {
@@ -623,22 +663,22 @@ export const removeProductFromCheckout = (config, lineItemId, checkoutId) => {
         }
       }
       `
-    return fetchShopifyGraphql(config, mutation)
+  return fetchShopifyGraphql(config, mutation)
 }
 
 export const addAddresstoCheckout = (config, address, checkoutId) => {
-    const {
-        address1,
-        address2,
-        province,
-        city,
-        zip,
-        lastName,
-        firstName,
-        country,
-    } = address
+  const {
+    address1,
+    address2,
+    province,
+    city,
+    zip,
+    lastName,
+    firstName,
+    country,
+  } = address
 
-    const mutation = `mutation {
+  const mutation = `mutation {
         checkoutShippingAddressUpdateV2(shippingAddress: {
           address1: "${address1}"
           address2: "${address2}"
@@ -667,11 +707,11 @@ export const addAddresstoCheckout = (config, address, checkoutId) => {
           }
         }
       }`
-    return fetchShopifyGraphql(config, mutation)
+  return fetchShopifyGraphql(config, mutation)
 }
 export const addEmailToCheckout = (config, email, checkoutId) => {
 
-    const mutation = `mutation{
+  const mutation = `mutation{
         checkoutEmailUpdateV2(checkoutId: "${checkoutId}", email: "${email}") {
           userErrors {
             field
@@ -687,11 +727,11 @@ export const addEmailToCheckout = (config, email, checkoutId) => {
         }
       }
       `
-    return fetchShopifyGraphql(config, mutation)
+  return fetchShopifyGraphql(config, mutation)
 }
 
 export const associateUserToCheckout = (config, accessToken, checkoutId) => {
-    const mutation = `mutation {
+  const mutation = `mutation {
         checkoutCustomerAssociateV2(checkoutId: "${checkoutId}", customerAccessToken: "${accessToken}") {
           userErrors {
             field
@@ -705,16 +745,16 @@ export const associateUserToCheckout = (config, accessToken, checkoutId) => {
           }
         }
       }`
-    return fetchShopifyGraphql(config, mutation)
+  return fetchShopifyGraphql(config, mutation)
 }
 
 export const registerUser = (config, user) => {
-    const {
-        email,
-        password
-    } = user
+  const {
+    email,
+    password
+  } = user
 
-    const mutation = `mutation {
+  const mutation = `mutation {
         customerCreate(input: {
           email: "${email}"
           password: "${password}"
@@ -732,15 +772,15 @@ export const registerUser = (config, user) => {
           }
         }
       }`
-    return fetchShopifyGraphql(config, mutation)
+  return fetchShopifyGraphql(config, mutation)
 }
 
 export const createAccessToken = (config, user) => {
-    const {
-        email,
-        password
-    } = user
-    const mutation = `mutation customerAccessTokenCreate {
+  const {
+    email,
+    password
+  } = user
+  const mutation = `mutation customerAccessTokenCreate {
         customerAccessTokenCreate(input: {
           email: "${email}"
           password: "${password}"
@@ -759,12 +799,12 @@ export const createAccessToken = (config, user) => {
           }
         }
       }`
-    return fetchShopifyGraphql(config, mutation)
+  return fetchShopifyGraphql(config, mutation)
 }
 
 export const renewAccessToken = (config, accessToken) => {
 
-    const mutation = `mutation {
+  const mutation = `mutation {
         customerAccessTokenRenew(customerAccessToken: "${accessToken}") {
           userErrors {
             field
@@ -776,21 +816,21 @@ export const renewAccessToken = (config, accessToken) => {
           }
         }
       }`
-    return fetchShopifyGraphql(config, mutation)
+  return fetchShopifyGraphql(config, mutation)
 }
 
 export const createAddress = (config, accessToken, address) => {
-    const {
-        address1,
-        address2,
-        province,
-        city,
-        zip,
-        lastName,
-        firstName,
-        country,
-    } = address
-    const mutation = `mutation {
+  const {
+    address1,
+    address2,
+    province,
+    city,
+    zip,
+    lastName,
+    firstName,
+    country,
+  } = address
+  const mutation = `mutation {
         customerAddressCreate(customerAccessToken: "${accessToken}", address:{
             address1: "${address1}"
             address2: "${address2}"
@@ -814,22 +854,22 @@ export const createAddress = (config, accessToken, address) => {
           }
         }
       }`
-    return fetchShopifyGraphql(config, mutation)
+  return fetchShopifyGraphql(config, mutation)
 }
 
 export const updateAddress = (config, accessToken, address) => {
-    const {
-        address1,
-        address2,
-        province,
-        city,
-        zip,
-        lastName,
-        firstName,
-        country,
-        id,
-    } = address
-    const mutation = `mutation {
+  const {
+    address1,
+    address2,
+    province,
+    city,
+    zip,
+    lastName,
+    firstName,
+    country,
+    id,
+  } = address
+  const mutation = `mutation {
         customerAddressUpdate(customerAccessToken: "${accessToken}", id: ${id}, address:{
             address1: "${address1}"
             address2: "${address2}"
@@ -853,12 +893,12 @@ export const updateAddress = (config, accessToken, address) => {
           }
         }
       }`
-    return fetchShopifyGraphql(config, mutation)
+  return fetchShopifyGraphql(config, mutation)
 }
 
 export const setDefaultAddress = (config, accessToken, addressId) => {
 
-    const mutation = `mutation {
+  const mutation = `mutation {
         customerDefaultAddressUpdate(customerAccessToken: "${accessToken}", addressId: "${addressId}") {
           userErrors {
             field
@@ -873,11 +913,11 @@ export const setDefaultAddress = (config, accessToken, addressId) => {
           }
         }
       }`
-    return fetchShopifyGraphql(config, mutation)
+  return fetchShopifyGraphql(config, mutation)
 }
 
 
 export const fetchCountry = () => {
-    const path = 'countries.json'
-    return fetchShopify(path)
+  const path = 'countries.json'
+  return fetchShopify(path)
 }

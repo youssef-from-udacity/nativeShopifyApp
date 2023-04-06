@@ -1,7 +1,9 @@
 import { createActions, createReducer } from 'reduxsauce'
 import Immutable from 'seamless-immutable'
-import { SHOPIFY_NAME, SHOPIFY_URL } from '../config/application'
 import { CollectionTypes } from '../redux/collection'
+
+const SHOPIFY_NAME = process.env.EXPO_PUBLIC_SHOPIFY_NAME
+const SHOPIFY_URL = process.env.EXPO_PUBLIC_SHOPIFY_URL
 
 const { Types, Creators } = createActions({
     requestShopDetail: null,

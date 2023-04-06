@@ -53,7 +53,6 @@ export class HomeComponent extends React.Component {
         }
     }
     //handleShouldStartLoadWithRequest = (event) => {
-    //  console.log('event -- - - -- - - ->',event)
     //  this.navigationStateChangedHandler(event);
     //  
     //  // Allow other types of requests
@@ -77,8 +76,8 @@ export class HomeComponent extends React.Component {
                         window.postMessage(sx.toString() + ","+ sy.toString() + ",Opal");
                       });                  
             window.postMessage = String(Object.hasOwnProperty).replace('hasOwnProperty', 'postMessage');
-            document.getElementById("shopify-section-header").style.display = "none";
-            document.getElementById("shopify-section-footer").style.display = "none";
+            document.getElementsByTagName('sticky-header')[0].style.display = "none";
+            document.getElementsByTagName('footer')[0].style.display = "none";
 
         `;
         

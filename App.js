@@ -20,6 +20,7 @@ import { theme } from './constants/Theme'
 import { ThemeProvider } from 'styled-components'
 import { StatusBar } from 'react-native'
 
+
 const logger = store => next => action => {
   //console.log('prev state', store.getState())
   console.log('dispatching', action)
@@ -29,20 +30,24 @@ const logger = store => next => action => {
 }
 
 const sagaMiddleware = createSagaMiddleware()
+
 const store = configureStore({
   reducer,
-  middleware:[logger, sagaMiddleware]
-}
-  )
+  middleware: (getDefaultMiddleware) => {
+    return [logger, sagaMiddleware]
+  }
 
+
+}
+)
 sagaMiddleware.run(rootSaga)
 
-function App (props){
+function App(props) {
   const isLoadingComplete = useState(false)
   _loadResourcesAsync = async () => {
     SplashScreen.preventAutoHideAsync();
 
-    try{
+    try {
 
       await Promise.all([
         Asset.loadAsync([
@@ -57,15 +62,15 @@ function App (props){
           'space-mono': require('./assets/fonts/SpaceMono-Regular.ttf'),
         }),
       ]);
-    }catch(e){
+    } catch (e) {
       console.warn(e);
-    }finally{
+    } finally {
       _handleFinishLoading()
     }
 
   };
-  _handleLayoutView = async()=>{
-    isLoadingComplete&&await SplashScreen.hideAsync();
+  _handleLayoutView = async () => {
+    isLoadingComplete && await SplashScreen.hideAsync();
   }
 
   _handleLoadingError = error => {
@@ -76,17 +81,17 @@ function App (props){
   };
 
   _handleFinishLoading = () => {
-    setState(true );
+    setState(true);
   };
   if (!isLoadingComplete) {
     // Keep the splash screen visible while we fetch resources
     _loadResourcesAsync();
-    
+
   } else {
-    
+
     return (
       <View style={styles.container} onLayout={_handleLayoutView}>
-         <StatusBar
+        <StatusBar
           barStyle={Platform.OS === 'ios' ? 'dark-content' : 'light-content'}
         />
         <ThemeProvider theme={theme}>

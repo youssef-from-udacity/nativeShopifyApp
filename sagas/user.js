@@ -86,6 +86,7 @@ export function* logout(action) {
 }
 
 export function* requestAssociateUserToCheckout(action) {
+
     const accessToken = yield select(getAccessToken)
     const cartId = yield select(getId)
     const config = yield select(getConfig)
