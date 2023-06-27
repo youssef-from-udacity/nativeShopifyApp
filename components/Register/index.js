@@ -1,7 +1,7 @@
 import React from 'react';
 import { Title } from './style'
 import { Button, View, TouchableOpacity, Text, Alert } from 'react-native'
-import { TextField } from 'react-native-material-textfield';
+import { TextField } from 'react-native-material-textfield-new';
 import { theme } from '../../constants/Theme'
 
 export default class RegisterComponent extends React.Component {

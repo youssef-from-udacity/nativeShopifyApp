@@ -1,5 +1,7 @@
 import React from 'react';
-import { WebView, View } from 'react-native'
+import { View,Text } from 'react-native'
+import { WebView } from 'react-native-webview';
+
 import HomePlaceholder from '../Placeholder/HomePlaceholder';
 
 export class HomeComponent extends React.Component {
@@ -8,8 +10,9 @@ export class HomeComponent extends React.Component {
         this.state = { key: 1, scroll: 0, sx: 0, sy: 0, showLoading: false}
     }
     loadingIndicator = () => {
-        return (
-            <HomePlaceholder/>
+      return (
+          <HomePlaceholder/>
+
         )
     }
 

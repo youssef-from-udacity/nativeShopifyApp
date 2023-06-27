@@ -15,5 +15,4 @@ export const Separator = styled(View)`
     height: 1;
     background-color: #CED0CE
 `
-export const StyledSafeAreaView = styled(SafeAreaView)`
-`
+export const StyledSafeAreaView = styled(SafeAreaView)``

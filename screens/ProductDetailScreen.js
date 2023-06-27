@@ -12,23 +12,22 @@ class ProductDetailScreen extends React.Component {
   constructor(props) {
     super(props)
   }
-  static navigationOptions = {
-
-  };
 
   componentDidMount() {
-    const productId = this.props.navigation.getParam('productId');
+    
+
+    const productId = this.props.route.params.productId;
     if (productId) {
       this.props.requestProductDetail(productId)
     } else {
-      const handle = this.props.navigation.getParam('handle');
+      const handle = this.props.route.params.handle;
       this.props.requestProductDetailByHandle(handle)
     }
 
   }
 
   componentWillUnmount() {
-    this.props.clearProductDetail()
+    //this.props.clearProductDetail()
   }
 
   _renderProductDetail = (isFetching) => {
@@ -43,7 +42,7 @@ class ProductDetailScreen extends React.Component {
               <ProductImage/>
             </View>
 
-              <ProductDetail/>
+              <ProductDetail navigation={this.props.navigation} />
 
           </View>
         

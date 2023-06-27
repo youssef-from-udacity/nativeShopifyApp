@@ -1,7 +1,7 @@
 import { createReducer, createActions } from 'reduxsauce'
 import Immutable from 'seamless-immutable'
 import { getMoneyFormat } from './shop'
-import { UserProfileTypes } from './user'
+import { UserProfileTypes } from '../redux/user'
 const { Types, Creators } = createActions({
     addNumberOfItems: null,
     requestCartDetail: null,
@@ -63,6 +63,7 @@ const requestCreateCheckoutSuccess = (state, action) => {
     const checkout = action.payload.data.checkoutCreate.checkout
     const id = checkout.id
     const webUrl = checkout.webUrl
+
     return state.merge({
         id: id,
         webUrl: webUrl,
@@ -70,6 +71,7 @@ const requestCreateCheckoutSuccess = (state, action) => {
 }
 const setCartId = (state, action) => {
     const id = action.id
+
     return state.merge({
         id: id,
     })  
@@ -144,7 +146,6 @@ export const cart = createReducer(INITIAL_STATE, {
     [Types.RESET_IS_ADDED_TO_CART]: resetIsAddedToCart,
     [Types.ADD_NUMBER_OF_ITEMS]: addNumberOfItems,
     [Types.REQUEST_CREATE_CHECKOUT_SUCCESS]: requestCreateCheckoutSuccess,
-    [Types.SET_CART_ID]: clearCart,
     [Types.SET_CART_ID]: setCartId,
     [Types.REQUEST_ADD_PRODUCT_TO_CHECKOUT]: requestAddProductToCheckout,
     [Types.REQUEST_ADD_PRODUCT_TO_CHECKOUT_SUCCESS]: requestAddProductToCheckoutSuccess,

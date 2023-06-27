@@ -13,7 +13,7 @@ class OrderList extends React.Component {
   };
   
   componentDidMount() {
-    const id = this.props.navigation.getParam('id')
+    const id = this.props.route.params.id;
     this.props.requestUserOrderDetail(id)
   
   }

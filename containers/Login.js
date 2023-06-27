@@ -2,11 +2,15 @@ import React from 'react'
 import { connect } from 'react-redux'
 import  LoginComponent  from '../components/Login'
 import UserActions from '../redux/user'
-import { withNavigation, StackActions, NavigationActions } from 'react-navigation';
+//import { withNavigation, StackActions, NavigationActions } from 'react-navigation';
+
+
 import { getIsLogin, getIsFetching, getLoginError } from '../redux/user'
 import { getName } from '../redux/shop'
 import { getButtonBackgroundColor, getButtonTextColor } from '../redux/config';
-import { Alert } from 'react-native'
+import { Alert } from 'react-native';
+import { CommonActions } from '@react-navigation/native';
+
 
 
 
@@ -18,24 +22,43 @@ class Login extends React.Component {
       this.props.navigation.navigate("RegisterScreen")
   }
   navigateToPayment = () => {
-    const resetAction = StackActions.reset({
-      index: 1,
-      actions: [
-        NavigationActions.navigate({ routeName: 'Main', action: NavigationActions.navigate({routeName: 'ShoppingCart'}) }),
-        NavigationActions.navigate({ routeName: 'Payment'})
-      ],
-      key: null 
+    const resetAction = CommonActions.reset({
+
+      //actions: [
+      //  this.props.navigation.navigate({ routeName: 'Main', action: this.props.navigation.navigate({routeName: 'ShoppingCart'}) }),
+      //  this.props.navigation.navigate({ routeName: 'Payment'})
+      //],
+      routes: [
+        {
+          name: 'Main',
+          state:{
+            routes: [
+              {
+                name: 'ShoppingCartStack',
+              },   
+            ]
+          }
+        },
+        {
+          name: 'Payment'
+        }
+            
+        
+      ]
+      //key: null 
     })
     this.props.navigation.dispatch(resetAction)
   }
 
   componentDidUpdate = (prevProps) => {
     if(this.props.isLogin === true && prevProps.isLogin === false){
-      const isFromShoppingCart = this.props.navigation.getParam('ShoppingCartScreen', false)
+      
+      const isFromShoppingCart = this.props.route?.params?.ShoppingCartScreen || false;
+      console.log('ShoppingCartScreen -- -- - --- -- -- -- >',isFromShoppingCart)
       if(isFromShoppingCart){
         this.navigateToPayment()
       }else{
-        this.props.navigation.goBack(null)
+        this.props.navigation.goBack()
       }
     }
     if(this.props.loginError === true && prevProps.loginError === false){
@@ -92,4 +115,4 @@ const LoginContainer = connect(
   mapDispatchToProps
 )(Login)
 
-export default withNavigation(LoginContainer)
+export default LoginContainer

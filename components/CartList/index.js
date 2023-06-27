@@ -14,7 +14,7 @@ export class CartList extends React.Component {
         return(
             <StyledFlatList
             data={this.props.productIds}
-            renderItem={({item}) => <CartItemContainer id={item}/> }
+            renderItem={({item}) => <CartItemContainer {...this.props} id={item}/> }
             keyExtractor={(item) => item}
             refreshing={this.props.isFetching}
             onRefresh={this._onRefresh}

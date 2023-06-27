@@ -31,13 +31,14 @@ class Collection extends React.Component {
 
   componentDidMount(){
     this.props.navigation.setParams({ color: this.props.headerBackgroundColor, headerContentColor: this.props.headerContentColor});
+    
   }
 
   _renderContent = (isLoading) => {
     if(isLoading){
       return <CollectionPlaceholder/>
     }else{
-      return <CollectionListContainer/>
+      return <CollectionListContainer {...this.props.navigation}/>
     }
   }
 

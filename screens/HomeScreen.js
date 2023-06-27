@@ -1,18 +1,21 @@
-import React from 'react';
+
+import React, {Component} from 'react'
+
 
 import { connect } from 'react-redux'
 import { HomeComponent } from '../components/Home'
 import { SafeAreaView, View, Text, ScrollView } from 'react-native';
 import { getName, getShopUrl, getFinishLoad} from '../redux/shop'
-import HomeCategoriesContainer from '../containers/HomeCategories'
-import BestSellingProductsContainer from '../containers/BestSellingProducts'
-import LatestProductsContainer from '../containers/LatestProducts'
-import { theme } from '../constants/Theme';
-import HomePlaceholder from '../components/Placeholder/HomePlaceholder';
+//import HomeCategoriesContainer from '../containers/HomeCategories'
+//import BestSellingProductsContainer from '../containers/BestSellingProducts'
+//import LatestProductsContainer from '../containers/LatestProducts'
+//import { theme } from '../constants/Theme';
+//import HomePlaceholder from '../components/Placeholder/HomePlaceholder';
 import { getHeaderBackgroundColor } from '../redux/config';
 
-class Home extends React.Component {
+class Home extends Component {
   static navigationOptions =( { navigation } ) => {
+
     return(
       {
         headerTitle: navigation.state.params ? navigation.state.params.title : '',
@@ -25,6 +28,7 @@ class Home extends React.Component {
 
   componentDidMount(){
     this.props.navigation.setParams({ color: this.props.headerBackroundColor, title: this.props.shopName });
+    
   }
   componentDidUpdate(prevProps){
     if (prevProps.shopName != this.props.shopName){
@@ -33,13 +37,15 @@ class Home extends React.Component {
   }
 
   renderHomePage = (finishLoad) => {
+    console.log('renderHomePage');
+
     if(finishLoad){
       return (
         <ScrollView style = {{backgroundColor: theme.listBackground}}>
           <HomeCategoriesContainer/>
           <BestSellingProductsContainer/>
           <LatestProductsContainer/>
-      </ScrollView>
+        </ScrollView>
       )
     }else{
       return (<HomePlaceholder/>)
@@ -48,20 +54,28 @@ class Home extends React.Component {
   }
 
   handleProductClick = (handle) => {
-    this.props.navigation.navigate('ProductDetailScreen', {
-      handle: handle
-    })
+
+    this.props.navigation.navigate('Product',{
+      screen: 'ProductDetailScreen',
+      params: {
+        handle: handle
+      }
+     })
   }
   handleCollectionClick = (handle) => {
-    this.props.navigation.navigate('ProductListScreen', {
-      handle: handle
+    this.props.navigation.navigate('ProductList', {
+      screen: 'ProductListScreen', params: {
+        handle: handle
+      }
     })
 }
 
   render() {
+    
     return (
       
-       <HomeComponent handleProductClick={this.handleProductClick} handleCollectionClick={this.handleCollectionClick} shopUrl = {this.props.shopUrl}/>
+      
+      <HomeComponent handleProductClick={this.handleProductClick} handleCollectionClick={this.handleCollectionClick} shopUrl = {this.props.shopUrl}/>
       
     );
   }
@@ -85,4 +99,4 @@ const HomeScreen = connect(
   mapDispatchToProps
 )(Home)
 
-export default HomeScreen
+export default HomeScreen;

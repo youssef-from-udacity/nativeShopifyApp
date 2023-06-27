@@ -2,15 +2,19 @@ import React from 'react';
 import { connect } from 'react-redux'
 import { getProductId, getProductTitle, getProductPrice, getProductImage, getProductQuantity, getProductVariantTitle } from '../redux/cart'
 import { CartItem as Item}  from '../components/CartItem'
-import { withNavigation } from 'react-navigation';
+//import { withNavigation } from 'react-navigation';
 import { Alert } from 'react-native'
 import  CartActions  from '../redux/cart'
 
 class CartItem extends React.Component {
   navigateToProductList = () => {
     const id = this.props.productId
-     this.props.navigation.navigate('ProductDetailScreen',{
-       productId: id
+     
+     this.props.navigation.navigate('Product',{
+      screen: 'ProductDetailScreen',
+      params: {
+        productId: id
+      }
      })
   }
 
@@ -69,4 +73,4 @@ const CartItemContainer = connect(
   mapDispatchToProps
 )(CartItem)
 
-export default withNavigation(CartItemContainer)
+export default CartItemContainer

@@ -1,7 +1,7 @@
 import React from 'react';
-import { StyledView, StyledOpacity, StyledText, SortContainer, StyledModal} from './style'
-import  { Icon } from 'expo'
-import  FilterModal  from '../FilterModal'
+import { StyledView, StyledOpacity, StyledText, SortContainer, StyledModal} from './style';
+import MaterialIcons  from '@expo/vector-icons/MaterialIcons';
+import  FilterModal  from '../FilterModal';
 import { theme } from '../../constants/Theme';
 
 export default class FilterTab extends React.Component {
@@ -61,7 +61,7 @@ export default class FilterTab extends React.Component {
        return item.title
     }
     onPress = (selectedSort) => {
-        const newSortState = this.state.sorts.map(sort => {
+        const newSortState = [...this.state.sorts].map(sort => {
             return {
                 title: sort.title,
                 checked: selectedSort.value == sort.value ? true : false,
@@ -86,7 +86,7 @@ export default class FilterTab extends React.Component {
             />
             <StyledOpacity onPress={this.openModal}>  
                 <SortContainer>
-                    <Icon.MaterialIcons
+                    <MaterialIcons
                         name='sort'
                         size={26}
                     />

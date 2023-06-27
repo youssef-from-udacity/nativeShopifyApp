@@ -1,11 +1,18 @@
 import React from 'react';
 
 import { connect } from 'react-redux'
-import { SafeAreaView, View, WebView, Alert } from 'react-native';
+import { SafeAreaView, View, Alert } from 'react-native';
+import { WebView } from 'react-native-webview';
+
 import { getHeaderBackgroundColor, getColorSelectionList, getPrimaryColor } from '../redux/config';
 import { getDescriptionHtml } from '../redux/productDetail';
 import ConfigActions from '../redux/config'
-import {StackActions, NavigationActions} from 'react-navigation'
+//import {StackActions, NavigationActions} from 'react-navigation';
+import { CommonActions } from '@react-navigation/native';
+
+
+
+
 class ShopifyInstall extends React.Component {
 
   navigationStateChangedHandler = (navigation) => {
@@ -27,13 +34,30 @@ class ShopifyInstall extends React.Component {
           { cancelable: false }
         )
 
+        const resetAction = CommonActions.reset({
 
-        const resetAction = StackActions.reset({
-          index: 0,
-          actions: [
-            NavigationActions.navigate({ routeName: 'Main', action: NavigationActions.navigate({routeName: 'HomeScreen'}) }),
-          ],
-          key: null 
+          //actions: [
+          //  this.props.navigation.navigate({ routeName: 'Main', action: this.props.navigation.navigate({routeName: 'ShoppingCart'}) }),
+          //  this.props.navigation.navigate({ routeName: 'Payment'})
+          //],
+          routes: [
+            {
+              name: 'Main',
+              state:{
+                routes: [
+                  {
+                    name: 'Home',
+                  },   
+                ]
+              }
+            },
+            {
+              name: 'Payment'
+            }
+                
+            
+          ]
+          //key: null 
         })
         this.props.navigation.dispatch(resetAction)
     }

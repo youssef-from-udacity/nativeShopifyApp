@@ -2,13 +2,17 @@ import React from 'react';
 import { connect } from 'react-redux'
 import { getLatestProductById } from '../redux/shop'
 import { BestSellingProductItem as Item}  from '../components/BestSellingProductItem'
-import { withNavigation } from 'react-navigation';
+//import { withNavigation } from 'react-navigation';
 
 class LatestProductItem extends React.Component {
   navigateToProductDetail = () => {
     const id = this.props.product.id
-     this.props.navigation.navigate('ProductDetailScreen',{
-      productId: id
+     
+     this.props.navigation.navigate('Product',{
+      screen: 'ProductDetailScreen',
+      params: {
+        productId: id
+      }
      })
   }
 
@@ -30,4 +34,4 @@ const LatestProductItemContainer = connect(
   mapStateToProps
 )(LatestProductItem)
 
-export default withNavigation(LatestProductItemContainer)
+export default LatestProductItemContainer

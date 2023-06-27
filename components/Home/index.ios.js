@@ -1,5 +1,7 @@
 import React from 'react';
-import { WebView, View } from 'react-native'
+import { View } from 'react-native'
+import { WebView } from 'react-native-webview';
+
 import HomePlaceholder from '../Placeholder/HomePlaceholder';
 
 export class HomeComponent extends React.Component {

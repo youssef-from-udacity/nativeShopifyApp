@@ -10,7 +10,7 @@ export const Price = styled(Text)`
 `
 
 export const Item = styled(TouchableOpacity)`
-    width: 50%
+    width: 50%;
     padding:1px;
     background-color: ${props => props.theme.listBackground};
     margin-top:1px;

@@ -2,7 +2,7 @@ import React from 'react';
 import {View, Text, TouchableOpacity, ScrollView, KeyboardAvoidingView} from 'react-native'
 import { connect } from 'react-redux'
 import CartActions from '../redux/cart'
-import { TextField } from 'react-native-material-textfield';
+import { TextField } from 'react-native-material-textfield-new';
 import { getPrimaryColor } from '../redux/config';
 import { getAddEmailAddressSuccess, getIsFetching } from '../redux/cart'
 class AddAddress extends React.Component {
@@ -176,7 +176,7 @@ class AddAddress extends React.Component {
   }
   componentDidUpdate(prevProps){
     if(prevProps.addEmailAddressSuccess === false && this.props.addEmailAddressSuccess === true){
-      this.props.navigation.navigate('PaymentScreen')
+      this.props.navigation.navigate('Payment',{screen:'PaymentScreen'})
     }
   }
   componentWillUnmount(){

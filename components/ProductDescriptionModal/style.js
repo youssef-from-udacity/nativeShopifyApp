@@ -11,8 +11,8 @@ export const StyledView = styled(View)`
     justify-content: flex-end;
 `
 export const StyledOpacity = styled(TouchableOpacity)`
-    padding-left: 5
-    padding-right: 5
+    padding-left: 5px;
+    padding-right: 5px;
 `
 export const StyledText = styled(Text)`
     flex: 1;
@@ -27,7 +27,7 @@ export const StyledQty = styled(Text)`
 `
 
 export const FilterText = styled(Text)`
-    font-size: 18
+    font-size: 18px;
 `   
 export const FilterTouchableContainer = styled(TouchableOpacity)`
     flex-direction: row;

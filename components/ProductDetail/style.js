@@ -2,12 +2,12 @@ import styled from 'styled-components';
 import { Text, Image, View } from 'react-native'
 
 export const Title = styled(Text)`
-    font-size: 30;
+    font-size: 30px;
 
 `
 export const PriceText = styled(Text)`
     margin-top: 10px;
-    font-size: 15;
+    font-size: 15px;
 
 `
 export const VariantImage = styled(Image)`
@@ -20,15 +20,15 @@ export const MainView = styled(View)`
 `
 
 export const VariantText = styled(Text)`
-    font-size: 15;
+    font-size: 15px;
 `
 export const VariantTitle = styled(Text)`
-    font-size: 15;
+    font-size: 15px;
     margin-top: 5px;
     font-weight: bold;
 `
 export const ProductInfoText = styled(Text)`
-    font-size: 15;
+    font-size: 15px;
 `
 export const ProductInfoView = styled(View)`
     padding: 20px;

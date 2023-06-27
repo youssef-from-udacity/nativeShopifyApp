@@ -1,27 +1,29 @@
 import React from 'react';
-import { ScrollView, SafeAreaView, SectionList, Text, View, TouchableOpacity , Alert} from 'react-native'
+import { ScrollView, SafeAreaView, SectionList, Text, View, TouchableOpacity, Alert } from 'react-native'
 import { theme } from '../constants/Theme'
 import { connect } from 'react-redux'
 
 import { SHOPIFY_STOREFRONT_ACCESS_TOKEN, SHOPIFY_URL } from '../config/application'
 import { getShopUrl } from '../redux/shop'
+import { WebView } from 'react-native-webview';
+
 
 class Policy extends React.Component {
-  static navigationOptions = ({navigation}) =>  ({
-    title: navigation.getParam('title'),
+  static navigationOptions = ({ navigation }) => ({
+    title: navigation.route.params.title,
   });
-  constructor(props){
+  constructor(props) {
     super(props)
     this.state = {
       body: ''
     }
   }
-  componentDidMount(){
+  componentDidMount() {
 
-    if(this.props.navigation.getParam('title') === 'Privacy Policy'){
+    if (this.props.route.params?.title === 'Privacy Policy') {
       this.getPrivacyPolicy()
     }
-    switch (this.props.navigation.getParam('title') ){
+    switch (this.props.route.params?.title) {
       case 'Privacy Policy':
         this.getPrivacyPolicy()
         break;
@@ -32,18 +34,18 @@ class Policy extends React.Component {
         this.getTermsOfService()
         break;
     }
-    
-    
+
+
   }
 
   getPrivacyPolicy = () => {
     fetch(this.props.shopifyUrl + '/api/graphql', {
       method: 'POST',
       headers: {
-      'Content-Type': 'application/graphql',
-      'X-Shopify-Storefront-Access-Token': SHOPIFY_STOREFRONT_ACCESS_TOKEN,
-    },
-    body: `
+        'Content-Type': 'application/graphql',
+        'X-Shopify-Storefront-Access-Token': SHOPIFY_STOREFRONT_ACCESS_TOKEN,
+      },
+      body: `
       {
         shop {
           privacyPolicy{
@@ -53,10 +55,10 @@ class Policy extends React.Component {
         }
       }
     `,
-  }).then((response) => response.json())
-  .then((responseJson) => {
-    this.setState({body: responseJson.data.shop.privacyPolicy.body})
-  })
+    }).then((response) => response.json())
+      .then((responseJson) => {
+        this.setState({ body: responseJson.data.shop.privacyPolicy.body })
+      })
   }
 
 
@@ -64,10 +66,10 @@ class Policy extends React.Component {
     fetch(this.props.shopifyUrl + '/api/graphql', {
       method: 'POST',
       headers: {
-      'Content-Type': 'application/graphql',
-      'X-Shopify-Storefront-Access-Token': SHOPIFY_STOREFRONT_ACCESS_TOKEN,
-    },
-    body: `
+        'Content-Type': 'application/graphql',
+        'X-Shopify-Storefront-Access-Token': SHOPIFY_STOREFRONT_ACCESS_TOKEN,
+      },
+      body: `
       {
         shop {
           refundPolicy{
@@ -77,20 +79,20 @@ class Policy extends React.Component {
         }
       }
     `,
-  }).then((response) => response.json())
-  .then((responseJson) => {
-    this.setState({body: responseJson.data.shop.refundPolicy.body})
-  })
+    }).then((response) => response.json())
+      .then((responseJson) => {
+        this.setState({ body: responseJson.data.shop.refundPolicy.body })
+      })
   }
 
   getTermsOfService = () => {
     fetch(this.props.shopifyUrl + '/api/graphql', {
       method: 'POST',
       headers: {
-      'Content-Type': 'application/graphql',
-      'X-Shopify-Storefront-Access-Token': SHOPIFY_STOREFRONT_ACCESS_TOKEN,
-    },
-    body: `
+        'Content-Type': 'application/graphql',
+        'X-Shopify-Storefront-Access-Token': SHOPIFY_STOREFRONT_ACCESS_TOKEN,
+      },
+      body: `
       {
         shop {
           termsOfService{
@@ -100,20 +102,23 @@ class Policy extends React.Component {
         }
       }
     `,
-  }).then((response) =>  response.json())
-  .then((responseJson) => {
-    this.setState({body: responseJson.data.shop.termsOfService.body})
-  })
+    }).then((response) => response.json())
+      .then((responseJson) => {
+        this.setState({ body: responseJson.data.shop.termsOfService.body })
+      })
   }
 
 
   render() {
-   
+
     return (
-      <SafeAreaView>
-            <ScrollView style={{padding: 10}}>
-              <Text>{this.state.body}</Text>
-            </ScrollView>
+      <SafeAreaView style={{ flex: 1 }}>
+        <WebView
+          originWhitelist={['*']}
+          source={{ html: this.state.body }}
+          scalesPageToFit={false}
+          style={{paddingVertical: 20}}
+        />
       </SafeAreaView>
     );
   }

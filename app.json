@@ -1,23 +1,15 @@
 {
   "expo": {
-    "name": "Shopify App Editor",
-    "slug": "shopifyeditor",
-    "privacy": "public",
-    "sdkVersion": "31.0.0",
-    "platforms": [
-      "ios",
-      "android"
-    ],
+    "name": "my-new-app",
+    "slug": "my-new-app",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon_2.png",
+    "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/images/icon_2.png",
       "resizeMode": "contain",
-      "backgroundColor": "#0079bf"
-    },
-    "updates": {
-      "fallbackToCacheTimeout": 0
+      "backgroundColor": "#ffffff"
     },
     "assetBundlePatterns": [
       "**/*"
@@ -25,6 +17,14 @@
     "ios": {
       "supportsTablet": true
     },
-    "description": ""
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      }
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    }
   }
 }

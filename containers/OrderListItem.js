@@ -1,24 +1,27 @@
 import React from 'react';
 import { connect } from 'react-redux'
-import { getIsAddressDefault} from '../redux/user'
-import { OrderListItem as Item}  from '../components/OrderListItem'
-import { withNavigation } from 'react-navigation';
+import { getIsAddressDefault } from '../redux/user'
+import { OrderListItem as Item } from '../components/OrderListItem'
+//import { withNavigation } from 'react-navigation';
 import { Alert } from 'react-native'
-import  CartActions  from '../redux/cart'
+import CartActions from '../redux/cart'
 import { getOrderById } from '../redux/order';
 import { getMoneyFormat } from '../redux/shop';
 
 class OrderListItem extends React.Component {
   navigateToOrderDetail = () => {
-     this.props.navigation.navigate('OrderDetailScreen',{
-       id: this.props.id
-     })
+    this.props.navigation.navigate('OrderScreen', {
+      screen: 'OrderDetailScreen',
+      params: {
+        id: this.props.id
+      }
+    })
   }
 
 
   render() {
     return (
-        <Item moneyFormat={this.props.moneyFormat} onPressItem={this.navigateToOrderDetail} order={this.props.order} />
+      <Item moneyFormat={this.props.moneyFormat} onPressItem={this.navigateToOrderDetail} order={this.props.order} />
     );
   }
 
@@ -45,4 +48,4 @@ const OrderListItemContainer = connect(
   mapDispatchToProps
 )(OrderListItem)
 
-export default withNavigation(OrderListItemContainer)
+export default OrderListItemContainer

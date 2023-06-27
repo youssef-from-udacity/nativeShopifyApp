@@ -1,8 +1,12 @@
 import React from 'react';
 import { StyledOpacity, StyledText, StyledModal, StyledView, ModalContainer, ModalHeader, ModalContent} from './style'
-import { Icon } from 'expo'
+import { Entypo } from '@expo/vector-icons'; 
+
+
 import { theme } from '../../constants/Theme'
-import { View, TouchableOpacity, WebView}  from 'react-native'
+import { View, TouchableOpacity}  from 'react-native'
+import { WebView } from 'react-native-webview';
+
 
 export default class ProductDescriptionModal extends React.Component {
     constructor(props){
@@ -24,7 +28,7 @@ export default class ProductDescriptionModal extends React.Component {
                     <ModalContainer>
                         <ModalHeader>
                             <StyledOpacity onPress= {this.props.cancelPressed}>
-                                <Icon.Entypo
+                                <Entypo
                                     name='cross'
                                     size={26}
                                     color='white'

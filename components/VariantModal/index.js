@@ -1,6 +1,8 @@
 import React from 'react';
 import { StyledQty, HeaderView, StyledImage, StyledText, StyledModal, StyledView, ModalContainer, ModalHeader, ModalContent, StyledFlatList} from './style'
-import { Icon } from 'expo'
+
+import { Entypo } from '@expo/vector-icons'; 
+
 import { theme } from '../../constants/Theme'
 import VariantModalItem  from '../../containers/VariantModalItem'
 import AddToCart from '../../containers/AddToCart'
@@ -35,7 +37,7 @@ export default class VariantModal extends React.Component {
                                 <View style = {{ flexDirection: 'row'}}>
                                     <StyledText style ={{flex:8}}>{this.props.title}</StyledText>
                                     <TouchableOpacity onPress={this.props.cancelPressed} style = {{flex:2, flexDirection: 'row',  justifyContent: 'flex-end' }} >
-                                        <Icon.Entypo
+                                        <Entypo
                                             name='cross'
                                             size={26}
                                             color= 'grey'
@@ -46,7 +48,7 @@ export default class VariantModal extends React.Component {
                                 <View style = {{marginTop: 10, flexDirection: 'row', alignItems: 'center'}}>
                                     <StyledQty>Quantity       </StyledQty>
                                     <TouchableOpacity onPress={this.props.onAddPressed}>
-                                    <Icon.Entypo
+                                    <Entypo
                                                 name='plus'
                                                 size={20}
                                                 color= 'grey'
@@ -54,7 +56,7 @@ export default class VariantModal extends React.Component {
                                     </TouchableOpacity>
                                     <StyledQty>     {this.props.selectedCount}    </StyledQty>
                                     <TouchableOpacity onPress={this.props.onMinusPressed}>
-                                    <Icon.Entypo
+                                    <Entypo
                                                 name='minus'
                                                 size={20}
                                                 color= 'grey'

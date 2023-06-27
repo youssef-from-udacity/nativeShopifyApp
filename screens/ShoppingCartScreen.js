@@ -16,20 +16,24 @@ class ShoppingCart extends React.Component {
   };
 
   navigateToLogin = () => {
-    this.props.navigation.navigate('LoginScreen',{'ShoppingCartScreen': true})
+    //this.props.navigation.navigate('LoginScreen',{'ShoppingCartScreen': true})
+    this.props.navigation.navigate('Login', { screen: 'LoginScreen',params:{'ShoppingCartScreen': true} })
+
   }
 
   continueAsGuest = () => {
     if(this.props.shippingAddress){
-      this.props.navigation.navigate('PaymentScreen',{})
+      this.props.navigation.navigate('Payment',{screen:'PaymentScreen',params:{}})
+
     }else{
       this.props.navigation.navigate('AddAddressScreen',{})
     }
   }
 
   onPress = () => {
+    console.log('-- --- -- -- -- - - -- ->',this.props.navigation);
     if(this.props.isLogin){
-      this.props.navigation.navigate('PaymentScreen',{})
+      this.props.navigation.navigate('Payment',{screen:'PaymentScreen',params:{}})
     }else{
       Alert.alert(
         'Do you want to login before proceed?',
@@ -45,13 +49,17 @@ class ShoppingCart extends React.Component {
   }
   componentDidMount(){
     this.props.requestCartDetail()
+
   }
   componentDidUpdate(prevProps){
       if(prevProps.order === null && this.props.order != null){
         if(this.props.isLogin){
           const orderId = this.props.order.id 
-          this.props.navigation.navigate('OrderDetailScreen',{
-            id: orderId
+          this.props.navigation.navigate('OrderScreen', {
+            screen: 'OrderDetailScreen',
+            params: {
+              id: orderId
+            }
           })
         }else{
           Alert.alert(

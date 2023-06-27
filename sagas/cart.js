@@ -1,19 +1,23 @@
 import { CartTypes } from '../redux/cart'
 import { UserProfileTypes, getDefaultAddressId, getAddressById, getIsLogin } from '../redux/user'
 import { ConfigTypes } from '../redux/config'
-import { takeLatest, call, select, put } from 'redux-saga/effects';
+import { takeLatest, call, select, put,take } from 'redux-saga/effects';
 import { createCheckout, addProductToCheckout, getCheckout, addAddresstoCheckout, addEmailToCheckout, removeProductFromCheckout } from '../api'
 import { getId, getShippingAddress } from '../redux/cart'
 import CartActions from '../redux/cart'
-import { AsyncStorage, Alert } from "react-native"
+import {  Alert } from "react-native"
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import { getSelectedVariant, getSelectedCount } from '../redux/productDetail';
 import {getConfig} from '../redux/config'
 export function* fetchCartDetail() {
     const cartId = yield select(getId)
     const config = yield select(getConfig)
+
     try{
-        const response =  yield call(getCheckout, config, cartId)
-        const payload = yield response.json()
+      const response =  yield call(getCheckout, config, cartId)
+      const payload = yield response.json()
+      console.log('payload',payload)
         
         if(response.ok){     
             if(payload.data.node != null && payload.data.node.order === null ){
@@ -38,13 +42,15 @@ export function* fetchCartDetail() {
 
 export function* requestCreateCheckout() {
     const config =  yield select(getConfig)
+    
     try{
-        const response =  yield call(createCheckout, config)
-        const payload = yield response.json()
-        if(response.ok){     
-            yield put.resolve(CartActions.requestCreateCheckoutSuccess(payload))
-            const cartId = yield select(getId)
-            yield call([AsyncStorage, 'setItem'], 'cartId', cartId)    
+      const response =  yield call(createCheckout, config)
+      const payload = yield response.json()
+      if(response.ok){     
+        yield put(CartActions.requestCreateCheckoutSuccess(payload))
+        const cartId = yield call(getId)
+        
+        yield call([AsyncStorage, 'setItem'], 'cartId', cartId)    
         }else{
             yield put(CartActions.requestCreateCheckoutFail(payload))
         }

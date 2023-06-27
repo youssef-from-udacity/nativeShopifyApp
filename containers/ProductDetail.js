@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux'
 import { getVariantCount, getSelectedVariantImage, getSelectedVariantTitle, getTitle, getAvailableForSale,getDescriptionHtml, getTotalPrice, getDescription  } from '../redux/productDetail'
 import { getIsProductAdded } from '../redux/cart'
-import { withNavigation } from 'react-navigation';
+//import { withNavigation } from 'react-navigation';
 import  ProductDetailComponent  from '../components/ProductDetail'
 import CartActions from '../redux/cart'
 
@@ -12,7 +12,7 @@ class ProductDetail extends React.Component {
     super(props)
   }
   navigateToCart = () => {
-     this.props.navigation.navigate('ShoppingCart')
+    this.props.navigation.replace('Main',{screen: 'ShoppingCartStack',params:{screen: 'ShoppingCart'}})
   }
   navigateToProductDescription = () => {
     this.props.navigation.navigate('ProductDescriptionScreen')
@@ -56,6 +56,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     addToCart: (product) => {
+      console.log('pa++++++++++++++++++++>', product)
       dispatch(CartActions.requestAddProductToCheckout(product))
     },    
     resetIsAddedToCart: () => {
@@ -69,4 +70,4 @@ const ProductDetailContainer = connect(
   mapDispatchToProps
 )(ProductDetail)
 
-export default withNavigation(ProductDetailContainer)
+export default ProductDetailContainer

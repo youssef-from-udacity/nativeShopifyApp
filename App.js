@@ -1,6 +1,15 @@
-import React from 'react'
+import {Component} from 'react'
 import { StyleSheet, View, Platform } from 'react-native'
-import { AppLoading, Asset, Font, Icon } from 'expo'
+import AppLoading from 'expo-app-loading';
+import * as SplashScreen from 'expo-splash-screen';
+import { Icon } from 'expo';
+import Ionicons from '@expo/vector-icons/Ionicons';
+
+
+import { Asset } from 'expo-asset';
+import * as Font from 'expo-font';
+
+
 import RootContainer from './containers/RootContainer'
 import { createStore, applyMiddleware } from 'redux'
 import { Provider } from 'react-redux'
@@ -27,23 +36,27 @@ const store = createStore(
 
 sagaMiddleware.run(rootSaga)
 
-export default class App extends React.Component {
+class App extends Component {
   state = {
     isLoadingComplete: false,
   };
 
   render() {
+    
     if (!this.state.isLoadingComplete && !this.props.skipLoadingScreen) {
-      return (
-        <AppLoading
-          startAsync={this._loadResourcesAsync}
-          onError={this._handleLoadingError}
-          onFinish={this._handleFinishLoading}
-        />
-      );
+      // Keep the splash screen visible while we fetch resources
+      this._loadResourcesAsync();
+      //return (
+      //  <AppLoading
+      //    startAsync={this._loadResourcesAsync}
+      //    onError={this._handleLoadingError}
+      //    onFinish={this._handleFinishLoading}
+      //  />
+      //);
     } else {
+      
       return (
-        <View style={styles.container}>
+        <View style={styles.container} onLayout={this._handleLayoutView}>
            <StatusBar
             barStyle={Platform.OS === 'ios' ? 'dark-content' : 'light-content'}
           />
@@ -58,20 +71,34 @@ export default class App extends React.Component {
   }
 
   _loadResourcesAsync = async () => {
-    return Promise.all([
-      Asset.loadAsync([
-        require('./assets/images/robot-dev.png'),
-        require('./assets/images/robot-prod.png'),
-      ]),
-      Font.loadAsync({
-        // This is the font that we are using for our tab bar
-        ...Icon.Ionicons.font,
-        // We include SpaceMono because we use it in HomeScreen.js. Feel free
-        // to remove this if you are not using it in your app
-        'space-mono': require('./assets/fonts/SpaceMono-Regular.ttf'),
-      }),
-    ]);
+    SplashScreen.preventAutoHideAsync();
+
+    try{
+
+      await Promise.all([
+        Asset.loadAsync([
+          require('./assets/images/robot-dev.png'),
+          require('./assets/images/robot-prod.png'),
+        ]),
+        Font.loadAsync({
+          // This is the font that we are using for our tab bar
+          ...Ionicons.font,
+          // We include SpaceMono because we use it in HomeScreen.js. Feel free
+          // to remove this if you are not using it in your app
+          'space-mono': require('./assets/fonts/SpaceMono-Regular.ttf'),
+        }),
+      ]);
+    }catch(e){
+      console.warn(e);
+    }finally{
+      this.setState({isLoadingComplete: true})
+    }
+
   };
+  _handleLayoutView = async()=>{
+    const appIsReady = this.state.isLoadingComplete;
+    appIsReady&&await SplashScreen.hideAsync();
+  }
 
   _handleLoadingError = error => {
     // In this case, you might want to report the error to your error
@@ -84,6 +111,7 @@ export default class App extends React.Component {
   };
 }
 
+export default App;
 const styles = StyleSheet.create({
   container: {
     flex: 1,

@@ -1,7 +1,9 @@
 import React from 'react';
 
 import { connect } from 'react-redux'
-import { SafeAreaView, View, WebView } from 'react-native';
+import { SafeAreaView, View } from 'react-native';
+import { WebView } from 'react-native-webview';
+
 import { getHeaderBackgroundColor, getColorSelectionList, getPrimaryColor } from '../redux/config';
 import ColorPalette from 'react-native-color-palette'
 import { Icon } from 'expo'

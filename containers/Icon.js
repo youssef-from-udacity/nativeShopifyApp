@@ -29,6 +29,7 @@ class Icon extends React.Component {
 
   render() {
     const {icon, focused, name, activeIconColor, inactiveIconColor} = this.props
+
     switch(icon){
       case 'Materialicon':
         return this._renderMaterialicons(focused, name, activeIconColor, inactiveIconColor)

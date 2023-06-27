@@ -4,7 +4,7 @@ import { OrderList as Item } from '../components/OrderList'
 import { getIsFetching } from '../redux/user'
 import OrderActions from '../redux/order'
 import { getButtonBackgroundColor, getButtonTextColor } from '../redux/config'
-import { withNavigation } from 'react-navigation'
+//import { withNavigation } from 'react-navigation'
 import { getAllOrderIds } from '../redux/order';
 
 class OrderList extends React.Component {
@@ -41,4 +41,4 @@ const OrderListContainer = connect(
   mapDispatchToProps
 )(OrderList)
 
-export default withNavigation(OrderListContainer)
+export default OrderListContainer

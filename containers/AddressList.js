@@ -4,7 +4,7 @@ import { AddressList } from '../components/AddressList'
 import { getAllAddressIds, getIsFetching } from '../redux/user'
 import CartActions from '../redux/cart'
 import { getButtonBackgroundColor, getButtonTextColor } from '../redux/config'
-import { withNavigation } from 'react-navigation'
+//import { withNavigation } from 'react-navigation'
 
 class AddressListItem extends React.Component {
 
@@ -40,4 +40,4 @@ const AddressListContainer = connect(
   mapDispatchToProps
 )(AddressListItem)
 
-export default withNavigation(AddressListContainer)
+export default AddressListContainer

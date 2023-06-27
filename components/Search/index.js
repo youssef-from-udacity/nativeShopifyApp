@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyledView } from './style'
-import Search from 'react-native-search-box';
+import Search from '../react-native-search-box/index';
 import { theme } from '../../constants/Theme'
 
 export default class SearchBox extends React.Component {

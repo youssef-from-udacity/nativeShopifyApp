@@ -2,14 +2,16 @@ import React from 'react';
 import { connect } from 'react-redux'
 import { getCollectionById, getProductCursor} from '../redux/collection'
 import { HomeCategoriesItem as Item}  from '../components/HomeCategoriesItem'
-import { withNavigation } from 'react-navigation';
+//import { withNavigation } from 'react-navigation';
 
 class HomeCategoriesItem extends React.Component {
   navigateToProductList = () => {
     const id = this.props.collection.id
-     this.props.navigation.navigate('ProductListScreen',{
-       id: id
-     })
+     this.props.navigation.navigate('ProductList', {
+      screen: 'ProductListScreen', params: {
+        id: id
+      }
+    })
   }
 
   render() {
@@ -30,4 +32,4 @@ const HomeCategoriesItemContainer = connect(
   mapStateToProps
 )(HomeCategoriesItem)
 
-export default withNavigation(HomeCategoriesItemContainer)
+export default HomeCategoriesItemContainer

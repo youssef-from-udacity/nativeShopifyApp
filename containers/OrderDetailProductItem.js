@@ -2,7 +2,7 @@ import React from 'react';
 import { Text, View } from 'react-native'
 import { connect } from 'react-redux'
 import { getProductById } from '../redux/orderDetail'
-import { withNavigation } from 'react-navigation';
+//import { withNavigation } from 'react-navigation';
 
 
 class OrderDetailProductItem extends React.Component {
@@ -40,4 +40,4 @@ const OrderDetailProductItemContainer = connect(
   mapDispatchToProps
 )(OrderDetailProductItem)
 
-export default withNavigation(OrderDetailProductItemContainer)
+export default OrderDetailProductItemContainer

@@ -4,6 +4,9 @@ import { SafeAreaView } from 'react-native'
 
 
 export default class LoginScreen extends React.Component {
+  constructor(props){
+    super(props)
+  }
   static navigationOptions = {
     title: 'Login',
     
@@ -12,7 +15,7 @@ export default class LoginScreen extends React.Component {
   render() {
     return (
       <SafeAreaView>
-        <LoginContainer/>
+        <LoginContainer {...this.props} />
       </SafeAreaView>
     );
   }

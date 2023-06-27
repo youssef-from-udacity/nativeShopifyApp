@@ -2,15 +2,18 @@ import React from 'react';
 import { connect } from 'react-redux'
 import { getAddressById , getIsAddressDefault} from '../redux/user'
 import { AddressListItem as Item}  from '../components/AddressListItem'
-import { withNavigation } from 'react-navigation';
+//import { withNavigation } from 'react-navigation';
 import { Alert } from 'react-native'
 import  CartActions  from '../redux/cart'
 
 class AddressListItem extends React.Component {
   navigateToProductList = () => {
     const id = this.props.productId
-     this.props.navigation.navigate('ProductDetailScreen',{
-       productId: id
+     this.props.navigation.navigate('Product',{
+      screen: 'ProductDetailScreen',
+      params: {
+        productId: id
+      }
      })
   }
 
@@ -50,4 +53,4 @@ const AddressListItemContainer = connect(
   mapDispatchToProps
 )(AddressListItem)
 
-export default withNavigation(AddressListItemContainer)
+export default AddressListItemContainer

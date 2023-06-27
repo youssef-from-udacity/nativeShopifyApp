@@ -1,5 +1,7 @@
 import React from 'react';
-import { WebView } from 'react-native'
+
+import { WebView } from 'react-native-webview';
+
 
 export class PaymentComponent extends React.Component {
     constructor(props){

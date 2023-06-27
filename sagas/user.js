@@ -5,7 +5,9 @@ import { createAddress, getCustomerAddress, associateUserToCheckout, createAcces
 import userActions from '../redux/user'
 import { getAccessToken, getExpiryAt } from '../redux/user'
 import { getId } from '../redux/cart'
-import { AsyncStorage } from "react-native"
+//import { AsyncStorage } from "react-native"
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import { getConfig } from '../redux/config'
 import {ConfigTypes} from '../redux/config'
 

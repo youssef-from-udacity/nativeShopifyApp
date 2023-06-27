@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux'
 import { getBottomTabBarColor } from '../redux/config'
-import { BottomTabBar }  from 'react-navigation-tabs'
+import { BottomTabBar }  from '@react-navigation/bottom-tabs'
 
 class TabBar extends React.Component {
   constructor(props){

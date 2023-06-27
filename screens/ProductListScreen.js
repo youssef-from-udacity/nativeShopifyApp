@@ -26,25 +26,21 @@ class ProductList extends React.Component {
   }
 
 
-  static navigationOptions =  ({navigation}) => { 
-    return ({
-    headerTitle: <SearchContainer afterCancel={navigation.state.params.afterCancel} beforeFocusSearch={navigation.state.params.beforeFocus} defaultValue={navigation.state.params.query} searchPressed={navigation.state.params.searchPressed}/>,
-    headerLeft: navigation.state.params.hideBackButton ? null  : <HeaderBackButton /> ,
-  })};
+
 
   componentDidMount(){
-    this.props.navigation.setParams({ searchPressed: this.searchPressed, beforeFocus: this.beforeFocus, hideBackButton: false, afterCancel: this.afterCancel });
-    const id = this.props.navigation.getParam('id'); 
+    this.props.navigation.setOptions({ searchPressed: this.searchPressed, beforeFocus: this.beforeFocus, hideBackButton: false, afterCancel: this.afterCancel });
+    const id = this.props.route?.params?.id; 
     if (id){
       this.setState({id: id, mode: 'ID'})
       this.props.requestProductListFromCollection(id, this.state.sortKey, this.state.reverse)
     }else{
-      const handle = this.props.navigation.getParam('handle');
+      const handle = this.props.route?.params?.handle;
       if(handle){
         this.setState({handle: handle, mode: 'HANDLE'})
         this.props.requestProductListFromCollectionByHandle(handle, this.state.sortKey, this.state.reverse)
       }else{
-        const query = this.props.navigation.getParam('query');
+        const query = this.props.route?.params?.query;
         this.setState({search: query, mode: 'SEARCH'})
         this.props.navigation.setParams({ defaultValue: query });
         if(query.length > 0){

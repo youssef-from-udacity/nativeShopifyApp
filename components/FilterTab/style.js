@@ -17,9 +17,7 @@ export const StyledOpacity = styled(TouchableOpacity)`
     padding-top: 10px;
     align-items: center;
 `
-export const StyledText = styled(Text)`
-
-`
+export const StyledText = styled(Text)``
 
 export const SortContainer = styled(View)`
     flex-direction: row;

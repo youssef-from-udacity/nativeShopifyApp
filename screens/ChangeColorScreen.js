@@ -1,11 +1,11 @@
 import React from 'react';
 
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
 import { SafeAreaView, View, TextInput, Text } from 'react-native';
 import { getHeaderBackgroundColor, getColorSelectionList, getPrimaryColor } from '../redux/config';
-import ColorPalette from 'react-native-color-palette'
-import { Icon } from 'expo'
-import ConfigActions from '../redux/config'
+import ColorPalette from 'react-native-color-palette';
+import Ionicons from '@expo/vector-icons/Ionicons';
+import ConfigActions from '../redux/config';
 
 class ChangeColor extends React.Component {
   static navigationOptions =( { navigation } ) => {
@@ -66,7 +66,7 @@ class ChangeColor extends React.Component {
             colors={this.props.colorSelectionList}
             title={""}
             icon={
-              <Icon.Ionicons name={'md-checkmark'} size={25} color={'white'} />
+              <Ionicons name={'md-checkmark'} size={25} color={'white'} />
               // React-Native-Vector-Icons Example
             }
           />

@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, TouchableOpacity, ScrollView, Alert } from 'react-native'
 import { connect } from 'react-redux'
 import UserActions, { getErrorText, getIsCreatingAddress, getCreatingAddressError, getIsCreatingAddressSuccess } from '../redux/user'
-import { TextField } from 'react-native-material-textfield';
+import { TextField } from 'react-native-material-textfield-new';
 import { getPrimaryColor } from '../redux/config';
 
 class AddAddress extends React.Component {

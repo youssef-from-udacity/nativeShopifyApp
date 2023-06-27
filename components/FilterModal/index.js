@@ -1,6 +1,9 @@
 import React from 'react';
 import { StyledText, StyledModal, StyledView, ModalContainer, ModalHeader, StyledOpacity, ModalContent, StyledScrollView, FilterText, FilterTouchableContainer} from './style'
-import { Icon } from 'expo'
+//import Ionicons from '@expo/vector-icons/Ionicons';
+import Feather from '@expo/vector-icons/Feather';
+import Entypo from '@expo/vector-icons/Entypo';
+
 import { TouchableWithoutFeedback, View } from 'react-native'
 
 export default class FilterModal extends React.Component {
@@ -10,7 +13,7 @@ export default class FilterModal extends React.Component {
 
     renderCheck = () => {
         return (
-            <Icon.Feather
+            <Feather
                 name='check'
                 size={26}
                 color={this.props.primaryColor}
@@ -51,7 +54,7 @@ export default class FilterModal extends React.Component {
                     <ModalContainer>
                         <ModalHeader style = {{backgroundColor: this.props.primaryColor}}>
                             <StyledOpacity onPress= {this.props.cancelPressed}>
-                                <Icon.Entypo
+                                <Entypo
                                     name='cross'
                                     size={26}
                                     color='white'

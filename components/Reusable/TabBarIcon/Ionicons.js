@@ -1,11 +1,13 @@
 import React from 'react';
 import { Icon } from 'expo';
+import Ionicons from '@expo/vector-icons/Ionicons';
+
 import { theme } from '../../../constants/Theme'
 import styles from './style'
-export default class Ionicons extends React.Component {
+export default class Ioniconse extends React.Component {
   render() {
     return (
-      <Icon.Ionicons
+      <Ionicons
         name={this.props.name}
         size={26}
         style={ styles.icon }

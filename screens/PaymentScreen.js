@@ -5,7 +5,10 @@ import { PaymentComponent } from '../components/Payment'
 import { getWebUrl } from '../redux/cart'
 import { getAccessToken, getIsLogin } from '../redux/user'
 import CartActions from '../redux/cart'
-import { StackActions, NavigationActions } from 'react-navigation';
+//import { StackActions, NavigationActions } from 'react-navigation';
+import { CommonActions } from '@react-navigation/native';
+
+
 class Payment extends React.Component {
   static navigationOptions = {
     headerTitle: 'Checkout'
@@ -14,15 +17,28 @@ class Payment extends React.Component {
   paymentCompleted = () => {
     if(this.props.isLogin){
       this.props.paymentSuccess()
-      this.props.navigation.goBack(null)   
+      this.props.navigation.goBack()   
     }else{
       this.props.paymentSuccess()
-      const resetAction = StackActions.reset({
-        index: 0,
-        actions: [
-          NavigationActions.navigate({ routeName: 'Main', action: NavigationActions.navigate({routeName: 'ShoppingCart'}) }),
-        ],
-        key: null 
+      const resetAction = CommonActions.reset({
+
+        //actions: [
+        //  this.props.navigation.navigate({ routeName: 'Main', action: this.props.navigation.navigate({routeName: 'ShoppingCart'}) }),
+        //  this.props.navigation.navigate({ routeName: 'Payment'})
+        //],
+        routes: [
+          {
+            name: 'Main',
+            state:{
+              routes: [
+                {
+                  name: 'ShoppingCartStack',
+                },   
+              ]
+            }
+          },  
+        ]
+        //key: null 
       })
       this.props.navigation.dispatch(resetAction)
     }
@@ -30,7 +46,7 @@ class Payment extends React.Component {
   }
 
   goToLogin = () => {
-    this.props.navigation.navigate("LoginScreen")
+    this.props.navigation.navigate('Login',{screen:'LoginScreen'})
   }
 
   render() {

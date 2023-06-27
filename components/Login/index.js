@@ -2,7 +2,7 @@ import React from 'react';
 import { Title } from './style'
 import { Main, Center } from '../Styled'
 import { Button,TextInput, View, TouchableOpacity, Text } from 'react-native'
-import { TextField } from 'react-native-material-textfield';
+import { TextField } from 'react-native-material-textfield-new';
 import { theme } from '../../constants/Theme'
 export default class LoginComponent extends React.Component {
 

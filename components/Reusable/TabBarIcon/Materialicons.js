@@ -2,10 +2,12 @@ import React from 'react';
 import { Icon } from 'expo';
 import styles from './style'
 import { theme } from '../../../constants/Theme'
-export default class MaterialIcons extends React.Component {
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+
+export default class MaterialIcon extends React.Component {
   render() {
     return (
-      <Icon.MaterialIcons
+      <MaterialIcons
         name={this.props.name}
         size={26}
         style={ styles.icon }
