@@ -9,7 +9,7 @@ import { getButtonBackgroundColor, getButtonTextColor } from '../redux/config'
 class AddressListItem extends React.Component {
 
   addNewAddressPressed = () => {
-    this.props.navigation.navigate("AddNewAddressScreen")
+    this.props.navigation.navigate('AddressScreenStack',{screen:'AddNewAddressScreen'})
   }
   render(){
     return(

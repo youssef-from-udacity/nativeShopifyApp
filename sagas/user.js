@@ -125,9 +125,10 @@ export function* requestCreateUserAddress(action) {
     const address = action.address
     const accessToken = yield select(getAccessToken)
     const config = yield select(getConfig)
+    
     try {
-        const response = yield call(createAddress, config, accessToken, address)
-        const payload = yield response.json()
+      const response = yield call(createAddress, config, accessToken, address)
+      const payload = yield response.json()
 
         if (response.ok) {
             if (payload.data.customerAddressCreate.customerAddress) {

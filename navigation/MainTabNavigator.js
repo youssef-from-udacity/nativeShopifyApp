@@ -36,28 +36,7 @@ import HeaderBackButton from '../containers/HeaderBackButton'
 ////};
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
-const HomeStack = () => {
-  return (
-    <Stack.Navigator>
-      <Stack.Screen name="Home" component={HomeScreen} />
-    </Stack.Navigator>
-  );
-};
-const CollectionStack = () => {
-  return (
-    <Stack.Navigator>
-      <Stack.Screen name="Search" component={CollectionScreen} />
 
-    </Stack.Navigator>
-  );
-};
-const ShoppingCartStack = () => {
-  return (
-    <Stack.Navigator>
-      <Stack.Screen name="ShoppingCart" component={ShoppingCartScreen} />
-    </Stack.Navigator>
-  );
-};
 //const CollectionStack = createStackNavigator({
 //  Collection: CollectionStack,
 //});
@@ -160,6 +139,7 @@ const MainStack = () => {
     <Tab.Navigator
       screenOptions={{
         lazy: false,
+        headerShown: false,
         tabBarShowLabel: false,
         tabBarLabelStyle: {
           fontSize: 12,
@@ -169,7 +149,7 @@ const MainStack = () => {
         <TabBarBottomContainer {...props} style={{ borderTopColor: '#605F60' }} />
       )}
     >
-      <Tab.Screen name="HomeStack" component={HomeStack} options={{
+      <Tab.Screen name="Home" component={HomeScreen} options={{
         tabBarLabel: 'Home',
         tabBarIcon: ({ focused }) => (<Icon
           focused={focused}
@@ -179,7 +159,7 @@ const MainStack = () => {
         )
       }} />
       
-      <Tab.Screen name="CollectionStack" component={CollectionStack} options={{
+      <Tab.Screen name="CollectionStack" component={CollectionScreen} options={{
         tabBarLabel: 'Search',
         tabBarIcon: ({ focused }) => (
           <Icon
@@ -189,7 +169,7 @@ const MainStack = () => {
           />
         )
       }} />
-      <Tab.Screen name="ShoppingCartStack" component={ShoppingCartStack} options={{
+      <Tab.Screen name="ShoppingCart" component={ShoppingCartScreen} options={{
         tabBarLabel: 'ShoppingCart',
         tabBarIcon: ({ focused }) => (
           <Icon

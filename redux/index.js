@@ -1,5 +1,3 @@
-import { combineReducers } from 'redux'
-import { createSelector } from 'reselect'
 import { user } from './user'
 import { config } from './config'
 import { productDetail } from './productDetail'
@@ -10,7 +8,7 @@ import { shop } from './shop'
 import { order } from './order'
 import { orderDetail } from './orderDetail'
 
-export default combineReducers({
+export default {
   user,
   config,
   productDetail,
@@ -20,5 +18,5 @@ export default combineReducers({
   shop,
   order,
   orderDetail,
-})
+}
 

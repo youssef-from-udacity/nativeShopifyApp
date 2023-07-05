@@ -51,5 +51,4 @@ export const StyledImage = styled(Image)`
 export const HeaderView = styled(View)`
     padding: 20px;
     background-color: white;
-    margin-top: 5px;
 `

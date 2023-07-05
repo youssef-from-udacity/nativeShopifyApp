@@ -110,7 +110,8 @@ class AddAddress extends React.Component {
       <View style = {{paddingLeft: 20, paddingRight: 20}}>
         <TextField
         label="Email"
-        onChangeText={(text) => this.setState({email: text})}
+        onChangeText={(text) => this.setState({...this.state, email: text})}
+              value={this.state.firstName}
         keyboardType="email-address"
         textContentType="emailAddress"
         error={this.state.emailError}
@@ -118,56 +119,64 @@ class AddAddress extends React.Component {
         <TextField
  
               label="Address 1"
-              onChangeText={(text) => this.setState({address1: text})}
+              onChangeText={(text) => this.setState({...this.state, address1: text})}
+              value={this.state.address1}
               textContentType="streetAddressLine1"
               error={this.state.address1Error}
         />
         <TextField
             
               label="Address 2"
-              onChangeText={(text) => this.setState({address2: text})}
+              onChangeText={(text) => this.setState({...this.state, address2: text})}
+              value={this.state.address2}
               textContentType="streetAddressLine2"
               error={this.state.address2Error}
         />
         <TextField
       
              label="Zip / Postal Code"
-              onChangeText={(text) => this.setState({zip: text})}
+              onChangeText={(text) => this.setState({...this.state, zip: text})}
+              value={this.state.zip}
               textContentType="postalCode"
               error={this.state.zipError}
         />
         <TextField
               
               label="City"
-              onChangeText={(text) => this.setState({city: text})}
+              onChangeText={(text) => this.setState({...this.state, city: text})}
+              value={this.state.city}
               textContentType="addressCity"
               error={this.state.cityError}
         />
         <TextField
         
               label="Province / State"
-              onChangeText={(text) => this.setState({province: text})}
+              onChangeText={(text) => this.setState({...this.state, province: text})}
+              value={this.state.province}
               textContentType="addressState"
               error={this.state.provinceError}
         />
         <TextField
 
               label="Country"
-              onChangeText={(text) => this.setState({country: text})}
+              onChangeText={(text) => this.setState({...this.state, country: text})}
+              value={this.state.country}
               textContentType="countryName"
               error={this.state.countryError}
         />
         <TextField
     
               label="First Name"
-              onChangeText={(text) => this.setState({firstName: text})}
+              onChangeText={(text) => this.setState({...this.state, firstName: text})}
+              value={this.state.firstName}
               textContentType="name"
               error={this.state.firstNameError}
         />
         <TextField
   
               label="Last Name"
-              onChangeText={(text) => this.setState({lastName: text})}
+              onChangeText={(text) => this.setState({...this.state, lastName: text})}
+              value={this.state.lastName}
               textContentType="name"
               error={this.state.lastNameError}
         />

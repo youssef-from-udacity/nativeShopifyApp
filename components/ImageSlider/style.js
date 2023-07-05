@@ -3,9 +3,9 @@ import { View, Image } from 'react-native'
 
 export const StyledImage = styled(Image)`
     height: 100%;
-    width: 100%;
-    
+    width: auto;
+
 `
 export const StyledView = styled(View)`
-    height: 500px;
+    height: 100%;
 `

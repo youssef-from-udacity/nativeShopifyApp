@@ -802,7 +802,7 @@ export const createAddress = (config, accessToken, address) => {
         country,
     } = address
     const mutation = `mutation {
-        customerAddressCreate(customerAccessToken: ${accessToken}, address:{
+        customerAddressCreate(customerAccessToken: "${accessToken}", address:{
             address1: "${address1}"
             address2: "${address2}"
             province: "${province}"
@@ -841,7 +841,7 @@ export const updateAddress = (config, accessToken, address) => {
         id,
     } = address
     const mutation = `mutation {
-        customerAddressUpdate(customerAccessToken: ${accessToken}, id: ${id}, address:{
+        customerAddressUpdate(customerAccessToken: "${accessToken}", id: ${id}, address:{
             address1: "${address1}"
             address2: "${address2}"
             province: "${province}"
@@ -870,7 +870,7 @@ export const updateAddress = (config, accessToken, address) => {
 export const setDefaultAddress = (config, accessToken, addressId) => {
 
     const mutation = `mutation {
-        customerDefaultAddressUpdate(customerAccessToken: ${accessToken}, addressId: ${addressId}) {
+        customerDefaultAddressUpdate(customerAccessToken: "${accessToken}", addressId: "${addressId}") {
           userErrors {
             field
             message

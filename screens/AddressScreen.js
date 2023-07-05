@@ -18,7 +18,7 @@ class Address extends React.Component {
   render = () => {
     return (
         <SafeAreaView style = {{flex:1}}>
-            <AddressListContainer/>
+            <AddressListContainer {...this.props}/>
         </SafeAreaView>
     )
   }

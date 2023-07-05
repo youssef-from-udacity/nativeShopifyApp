@@ -38,7 +38,7 @@ class ProductDetailScreen extends React.Component {
     }else{
       return (
           <View style = {{backgroundColor: theme.listBackground}}>
-            <View style = {{height: 400}}>
+            <View style = {{height: 500}}>
               <ProductImage/>
             </View>
 
@@ -54,7 +54,7 @@ class ProductDetailScreen extends React.Component {
     return (
       <SafeAreaView style = {{flex:1}}>
         <ScrollView style = {{ backgroundColor: theme.listBackground}}>
-          <View style = {{paddingBottom:  90,}}>
+          <View style = {{paddingBottom:  90}}>
           {this._renderProductDetail(this.props.isFetching)}
           </View>
         </ScrollView>

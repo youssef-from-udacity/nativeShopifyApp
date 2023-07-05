@@ -17,7 +17,6 @@ export function* fetchCartDetail() {
     try{
       const response =  yield call(getCheckout, config, cartId)
       const payload = yield response.json()
-      console.log('payload',payload)
         
         if(response.ok){     
             if(payload.data.node != null && payload.data.node.order === null ){

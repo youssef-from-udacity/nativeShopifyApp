@@ -78,7 +78,7 @@ class ShoppingCart extends React.Component {
   render = () => {
     return (
         <SafeAreaView style = {{flex:1}}>
-            <CartListContainer/>
+            <CartListContainer {...this.props}/>
             <Checkout primaryColor={this.props.primaryColor} price={this.props.price} onPress={this.onPress} cartItemCount = {this.props.cartItemCount}/>
         </SafeAreaView>
     )

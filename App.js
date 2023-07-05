@@ -1,8 +1,8 @@
-import {Component} from 'react'
+import {useState} from 'react'
 import { StyleSheet, View, Platform } from 'react-native'
-import AppLoading from 'expo-app-loading';
+
 import * as SplashScreen from 'expo-splash-screen';
-import { Icon } from 'expo';
+
 import Ionicons from '@expo/vector-icons/Ionicons';
 
 
@@ -11,7 +11,7 @@ import * as Font from 'expo-font';
 
 
 import RootContainer from './containers/RootContainer'
-import { createStore, applyMiddleware } from 'redux'
+import { configureStore } from '@reduxjs/toolkit'
 import { Provider } from 'react-redux'
 import reducer from './redux'
 import createSagaMiddleware from 'redux-saga'
@@ -29,47 +29,16 @@ const logger = store => next => action => {
 }
 
 const sagaMiddleware = createSagaMiddleware()
-const store = createStore(
+const store = configureStore({
   reducer,
-  applyMiddleware(logger, sagaMiddleware)
+  middleware:[logger, sagaMiddleware]
+}
   )
 
 sagaMiddleware.run(rootSaga)
 
-class App extends Component {
-  state = {
-    isLoadingComplete: false,
-  };
-
-  render() {
-    
-    if (!this.state.isLoadingComplete && !this.props.skipLoadingScreen) {
-      // Keep the splash screen visible while we fetch resources
-      this._loadResourcesAsync();
-      //return (
-      //  <AppLoading
-      //    startAsync={this._loadResourcesAsync}
-      //    onError={this._handleLoadingError}
-      //    onFinish={this._handleFinishLoading}
-      //  />
-      //);
-    } else {
-      
-      return (
-        <View style={styles.container} onLayout={this._handleLayoutView}>
-           <StatusBar
-            barStyle={Platform.OS === 'ios' ? 'dark-content' : 'light-content'}
-          />
-          <ThemeProvider theme={theme}>
-            <Provider store={store}>
-              <RootContainer />
-            </Provider>
-          </ThemeProvider>
-        </View>
-      );
-    }
-  }
-
+function App (props){
+  const isLoadingComplete = useState(false)
   _loadResourcesAsync = async () => {
     SplashScreen.preventAutoHideAsync();
 
@@ -91,13 +60,12 @@ class App extends Component {
     }catch(e){
       console.warn(e);
     }finally{
-      this.setState({isLoadingComplete: true})
+      setState(true)
     }
 
   };
   _handleLayoutView = async()=>{
-    const appIsReady = this.state.isLoadingComplete;
-    appIsReady&&await SplashScreen.hideAsync();
+    isLoadingComplete&&await SplashScreen.hideAsync();
   }
 
   _handleLoadingError = error => {
@@ -109,7 +77,27 @@ class App extends Component {
   _handleFinishLoading = () => {
     this.setState({ isLoadingComplete: true });
   };
+  if (!isLoadingComplete) {
+    // Keep the splash screen visible while we fetch resources
+    _loadResourcesAsync();
+    
+  } else {
+    
+    return (
+      <View style={styles.container} onLayout={_handleLayoutView}>
+         <StatusBar
+          barStyle={Platform.OS === 'ios' ? 'dark-content' : 'light-content'}
+        />
+        <ThemeProvider theme={theme}>
+          <Provider store={store}>
+            <RootContainer />
+          </Provider>
+        </ThemeProvider>
+      </View>
+    );
+  }
 }
+
 
 export default App;
 const styles = StyleSheet.create({

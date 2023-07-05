@@ -1,9 +1,6 @@
-// import { createSwitchNavigator, createAppContainer, createStackNavigator } from 'react-navigation';
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
-
 import MainTabNavigator from './MainTabNavigator';
-import PlaceItem from './PlaceItem';
 import React from 'react';
 import ProductDetailScreen from '../screens/ProductDetailScreen'
 import ProductDescriptionScreen from '../screens/ProductDescriptionScreen'
@@ -11,32 +8,14 @@ import ProductListScreen from '../screens/ProductListScreen'
 import PaymentScreen from '../screens/PaymentScreen'
 import LoginScreen from '../screens/LoginScreen'
 import ShopifyInstallScreen from '../screens/ShopifyInstallScreen'
-//import RegisterScreen from '../screens/RegisterScreen'
 import AddAddressScreen from '../screens/AddAddressScreen'
 import AddressScreen from '../screens/AddressScreen'
-//import AddNewAddressScreen from '../screens/AddNewAddressScreen'
+import AddNewAddressScreen from '../screens/AddNewAddressScreen'
 import HeaderBackButton from '../containers/HeaderBackButton'
-//import {Platform} from 'react-native';
 import OrderListScreen from '../screens/OrderListScreen'
 import OrderDetailScreen from '../screens/OrderDetailScreen'
 import ChangeColorScreen from '../screens/ChangeColorScreen'
-//
-//const ProductDetailStack = createStackNavigator({
-//  ProductDetailScreen: ProductDetailScreen,
-//  ProductDescriptionScreen: ProductDescriptionScreen,
-//},{
-//  defaultNavigationOptions: ({navigation}) => ({
-//    headerTitle: 'Product Detail',
-//    headerLeft: <HeaderBackButton/>,
-//    headerTransparent: false,
-//    headerStyle: {
-//   
-//    },
-//    headerTitleStyle: {
-//  
-//    },
-//  })
-//})
+
 const ProductDetailStack = () => {
   return (
     <Stack.Navigator screenOptions={(navigation) => ({
@@ -54,13 +33,7 @@ const ProductDetailStack = () => {
     </Stack.Navigator>
   );
 };
-//
-//
-//const ProductListStack = createStackNavigator({
-//  ProductListScreen: ProductListScreen,
-//},{
-//})
-//
+
 const ProductListStack = () => {
   return (
     <Stack.Navigator screenOptions={(navigation) => ({
@@ -76,13 +49,7 @@ const ProductListStack = () => {
     </Stack.Navigator>
   );
 };
-//const PaymentStack = createStackNavigator({
-//  PaymentScreen: PaymentScreen,
-//},{
-//  defaultNavigationOptions: ({navigation}) => ({
-//    headerLeft: <HeaderBackButton/>,
-//  })
-//})
+
 const PaymentStack = () => {
   return (
     <Stack.Navigator screenOptions={(navigation) => ({
@@ -95,46 +62,7 @@ const PaymentStack = () => {
     </Stack.Navigator>
   );
 };
-//const ChangeColorStack = createStackNavigator({
-//  ChangeColorScreen: ChangeColorScreen,
-//},{
-//  defaultNavigationOptions: ({navigation}) => ({
-//    headerLeft: <HeaderBackButton/>,
-//  })
-//})
-//
 
-//
-//const AddAdressScreenStack = createStackNavigator({
-//  AddAddressScreen: AddAddressScreen,
-//},{
-//  defaultNavigationOptions: ({navigation}) => ({
-//    headerLeft: <HeaderBackButton/>,
-//  })
-//})
-//
-const AddAdressScreenStack = () => {
-  return (
-    <Stack.Navigator screenOptions={(navigation) => ({
-      headerLeft: () => (<HeaderBackButton {...navigation} />),
-    })}>
-      <Stack.Screen
-        name="AddAddressScreen"
-        component={AddAddressScreen}
-      />
-    </Stack.Navigator>
-  );
-};
-//const LoginStack = createStackNavigator({
-//  LoginScreen: LoginScreen,
-//  RegisterScreen: RegisterScreen
-//},{
-//  defaultNavigationOptions: ({navigation}) => ({
-//    headerLeft: <HeaderBackButton/>,
-//    mode: 'modal',
-//    
-//  }),
-//})
 const LoginStack = () => {
   return (
     <Stack.Navigator screenOptions={(navigation) => ({
@@ -147,38 +75,25 @@ const LoginStack = () => {
     </Stack.Navigator>
   );
 };
-//const ShopifyInstallStack = createStackNavigator({
-//  ShopifyInstallScreen: ShopifyInstallScreen,
-//},{
-//  defaultNavigationOptions: ({navigation}) => ({
-//    headerLeft: <HeaderBackButton/>,
-//    mode: 'modal',
-//    
-//  }),
-//})
-//
+const AddressScreenStack = () => {
+  return (
+    <Stack.Navigator screenOptions={(navigation) => ({
+      headerLeft: () => (<HeaderBackButton {...navigation} />),
+      mode: 'modal',
 
-//const AddressScreenStack = createStackNavigator({
-//  AddressScreen: AddressScreen,
-//  AddNewAddressScreen: AddNewAddressScreen,
-//},{
-//  defaultNavigationOptions: ({navigation}) => ({
-//    headerLeft: <HeaderBackButton/>,
-//    mode: 'modal',
-//    
-//  }),
-//})
+    })}>
+      <Stack.Screen
+          name="AddressScreen"
+          component={AddressScreen}
+        />
+      <Stack.Screen
+          name="AddNewAddressScreen"
+          component={AddNewAddressScreen}
+        />
+    </Stack.Navigator>
+  );
+};
 
-//const OrderScreenStack = createStackNavigator({
-//  OrderListScreen: OrderListScreen,
-//  OrderDetailScreen: OrderDetailScreen
-//},{
-//  defaultNavigationOptions: ({navigation}) => ({
-//    headerLeft: <HeaderBackButton/>,
-//    mode: 'modal',
-//    
-//  }),
-//})
 const OrderScreenStack = () => {
   return (
     <Stack.Navigator>
@@ -201,15 +116,15 @@ const OrderScreenStack = () => {
     </Stack.Navigator>
   );
 };
-const Stack = createStackNavigator();      //It is used to create a stack navigator, a type of navigation container that manages a stack of screens in a hierarchical manner.
-const App = () => {
+const Stack = createStackNavigator();     
+
+const AppNavigator = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator
         screenOptions={{
-          headerShown: true,
+          headerShown: false,
           animationEnabled: false,
-
         }}>
         <Stack.Screen name="Main" component={MainTabNavigator} />
         <Stack.Screen name="Product" component={ProductDetailStack} />
@@ -217,14 +132,7 @@ const App = () => {
         <Stack.Screen name="Payment" component={PaymentStack} />
         <Stack.Screen name="Login" component={LoginStack} />
         <Stack.Screen name="AddAddressScreen" component={AddAddressScreen} />
-        <Stack.Screen
-          name="AddressScreen"
-          component={AddressScreen}
-          options={(navigation) => ({
-            headerLeft: () => (<HeaderBackButton {...navigation} />),
-            mode: 'modal',
-          })}
-        />
+        <Stack.Screen name="AddressScreenStack" component={AddressScreenStack} />
         <Stack.Screen name="OrderScreen" component={OrderScreenStack} />
         <Stack.Screen
           name="ChangeColorScreen"
@@ -247,38 +155,6 @@ const App = () => {
     </NavigationContainer>
   );
 };
-//const MainStack = createStackNavigator({
-//  Main: MainTabNavigator,
-//Product: ProductDetailStack,
-//ProductList: ProductListStack,
-//Payment: PaymentStack,
-//Login: LoginStack,
-//AddAddressScreen: AddAdressScreenStack,
-//AddressScreen: AddressScreenStack,
-//OrderScreen: OrderScreenStack,
-//ChangeColorScreen: ChangeColorStack,
-//ShopifyInstallStack: ShopifyInstallStack,
-//},{
-//  headerMode: 'none',
-//  transitionConfig: () => ({
-//    transitionSpec: {
-//      ...Platform.select({
-//        android: {
-//          duration: 0,
-//        },
-//        
-//      }),
-//        // Set the animation duration time as 0 !!
-//    },
-//  }),
-//})
 
 
-
-// const switchNavigator =  createSwitchNavigator({
-// You could add another route here for authentication.
-// Read more at https://reactnavigation.org/docs/en/auth-flow.html
-// MainStack
-// });
-
-export default App;
+export default AppNavigator;

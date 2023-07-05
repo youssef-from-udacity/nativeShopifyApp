@@ -6,34 +6,45 @@ import Swiper from 'react-native-swiper';
 import ImageResizeMode from 'react-native/Libraries/Image/ImageResizeMode'
 const renderImage = (images) => {
 
-    return (
-        images.map((image, index) => {
-            return (
-                    <StyledImage
-                    key={index}
-                            source={{uri: image}}
-                            resizeMode={ImageResizeMode.contain}
-                    />
-            )
-        })
-    )
+  return (
+    images.map((image, index) => {
+      return (
+        <StyledImage
+          key={index}
+          style={{
+            resizeMode: 'contain',
+            height: '100%',
+            width: 'auto',
+          }}
+          source={{ uri: image }}
+          resizeMode={ImageResizeMode.contain}
+        />
+      )
+    })
+  )
 }
 
 export const ImageSlider = ({ images, primaryColor }) => {
-    return(
-        <Swiper 
-            activeDotColor={primaryColor} 
-            style = {{backgroundColor: 'white'}} 
-            loop={false} 
-            showsButtons={images.length > 1 ? true : false}
-            nextButton={<Text style = {{    fontSize: 50,
-                color: primaryColor}}>›</Text>}
-            prevButton={<Text style = {{    fontSize: 50,
-                color: primaryColor}}>‹</Text>}
-            >
-            {renderImage(images)}
-        </Swiper>
-            
-    )
+  return (
+    <Swiper
+      activeDotColor={primaryColor}
+      style={{
+        backgroundColor: 'white', height: '100%'
+      }}
+      loop={false}
+      showsButtons={images.length > 1 ? true : false}
+      nextButton={<Text style={{
+        fontSize: 50,
+        color: primaryColor
+      }}>›</Text>}
+      prevButton={<Text style={{
+        fontSize: 50,
+        color: primaryColor
+      }}>‹</Text>}
+    >
+      {renderImage(images)}
+    </Swiper>
+
+  )
 }
 

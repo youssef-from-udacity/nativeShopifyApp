@@ -1,18 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { connect } from 'react-redux'
 import AppNavigator from '../navigation/AppNavigator'
 import StartupActions from '../redux/startup'
-class Root extends React.Component {
-    componentDidMount(){
-        this.props.startup()
-    }
-  render() {
-    return (
-        <AppNavigator />
-    );
-  }
 
+function Root(props) {
+  useEffect(() => props.startup(), [])
+  return (<AppNavigator />);
 }
 
 const mapStateToProps = state => {

@@ -56,7 +56,6 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     addToCart: (product) => {
-      console.log('pa++++++++++++++++++++>', product)
       dispatch(CartActions.requestAddProductToCheckout(product))
     },    
     resetIsAddedToCart: () => {

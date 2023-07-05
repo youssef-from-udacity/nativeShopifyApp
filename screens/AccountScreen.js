@@ -51,7 +51,7 @@ class Account extends React.Component {
         break;
       case 'Address':
         if (this.props.isLogin) {
-          this.props.navigation.navigate('AddressScreen')
+          this.props.navigation.navigate('AddressScreenStack',{screen:'AddressScreen'})
         } else {
           this.props.navigation.navigate('Login', { screen: 'LoginScreen' })
         }

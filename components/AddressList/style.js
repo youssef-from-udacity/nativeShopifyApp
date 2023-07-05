@@ -5,5 +5,3 @@ export const StyledFlatList = styled(FlatList)`
     height: 100%;
     background-color: ${props => props.theme.listBackground};
 `
-
-

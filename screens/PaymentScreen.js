@@ -32,7 +32,7 @@ class Payment extends React.Component {
             state:{
               routes: [
                 {
-                  name: 'ShoppingCartStack',
+                  name: 'ShoppingCart',
                 },   
               ]
             }
