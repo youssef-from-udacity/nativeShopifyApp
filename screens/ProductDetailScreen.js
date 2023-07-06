@@ -1,4 +1,4 @@
-import React from 'react';
+import { useEffect } from 'react';
 import { SafeAreaView, View, ScrollView } from 'react-native'
 import ProductDetail from '../containers/ProductDetail'
 import ProductImage from '../containers/ProductImage'
@@ -8,27 +8,18 @@ import { connect } from 'react-redux'
 import { theme } from '../constants/Theme'
 import ProductDetailPlaceholder from '../components/Placeholder/ProductDetailPlaceholder';
 
-class ProductDetailScreen extends React.Component {
-  constructor(props) {
-    super(props)
-  }
+function ProductDetailScreen (props){
 
-  componentDidMount() {
-    
-
-    const productId = this.props.route.params.productId;
+  useEffect(()=>{
+    const productId = props.route.params.productId;
     if (productId) {
-      this.props.requestProductDetail(productId)
+      props.requestProductDetail(productId)
     } else {
-      const handle = this.props.route.params.handle;
-      this.props.requestProductDetailByHandle(handle)
+      const handle = props.route.params.handle;
+      props.requestProductDetailByHandle(handle)
     }
-
-  }
-
-  componentWillUnmount() {
-    //this.props.clearProductDetail()
-  }
+    return ()=>props.clearProductDetail();
+  },[])
 
   _renderProductDetail = (isFetching) => {
     if (isFetching){
@@ -42,29 +33,24 @@ class ProductDetailScreen extends React.Component {
               <ProductImage/>
             </View>
 
-              <ProductDetail navigation={this.props.navigation} />
+              <ProductDetail navigation={props.navigation} />
 
           </View>
         
       )
     }
   }
-
-  render = () => {
-    return (
-      <SafeAreaView style = {{flex:1}}>
+  return (
+    <SafeAreaView style = {{flex:1}}>
         <ScrollView style = {{ backgroundColor: theme.listBackground}}>
           <View style = {{paddingBottom:  90}}>
-          {this._renderProductDetail(this.props.isFetching)}
+          {_renderProductDetail(props.isFetching)}
           </View>
         </ScrollView>
         <AddToCart  />
       </SafeAreaView>
-    )
-  }
-
+  );
 }
-
 const mapStateToProps = state => {
   return {
     title: getTitle(state),
