@@ -16,6 +16,7 @@ class ProductDescription extends React.Component {
     return (
       <SafeAreaView style = {{flex:1}}>
           <WebView
+              originWhitelist={['*']}
               source={{html: this.props.descriptionHtml}}
               scalesPageToFit={false}
           />

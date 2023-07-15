@@ -1,23 +1,21 @@
 import React from 'react';
 import { theme } from '../../constants/Theme'
 import { StyledImage, StyledView } from './style'
-import { Text } from 'react-native'
+import { Text, Image } from 'react-native'
 import Swiper from 'react-native-swiper';
-import ImageResizeMode from 'react-native/Libraries/Image/ImageResizeMode'
 const renderImage = (images) => {
 
   return (
     images.map((image, index) => {
       return (
-        <StyledImage
+        <Image
           key={index}
           style={{
             resizeMode: 'contain',
-            height: '100%',
-            width: 'auto',
+            height: 500,
+            width: 'auto'
           }}
           source={{ uri: image }}
-          resizeMode={ImageResizeMode.contain}
         />
       )
     })

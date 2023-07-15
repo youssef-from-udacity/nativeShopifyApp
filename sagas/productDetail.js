@@ -23,12 +23,12 @@ export function* fetchProductDetailByHandle(action) {
     const response = yield call(getProductByHandle, config, handle)
     const payload = yield response.json()
     if (response.ok) {
-        if(payload.data.productByHandle){
-            yield put(ProductDetailAction.requestProductDetailSuccess(payload.data.productByHandle))
+        if(payload.data.product){
+            yield put(ProductDetailAction.requestProductDetailSuccess(payload.data.product))
         }else{
             Alert.alert(
                 'Product does not exists.',
-                'The owner have not make this product available on the app.',
+                'The product is not available on the app.',
                 [
                   {text: 'OK', onPress: () => console.log('OK Pressed')},
                 ],

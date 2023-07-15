@@ -60,7 +60,7 @@ function App (props){
     }catch(e){
       console.warn(e);
     }finally{
-      setState(true)
+      _handleFinishLoading()
     }
 
   };
@@ -71,11 +71,12 @@ function App (props){
   _handleLoadingError = error => {
     // In this case, you might want to report the error to your error
     // reporting service, for example Sentry
+    _handleFinishLoading()
     console.warn(error);
   };
 
   _handleFinishLoading = () => {
-    this.setState({ isLoadingComplete: true });
+    setState(true );
   };
   if (!isLoadingComplete) {
     // Keep the splash screen visible while we fetch resources

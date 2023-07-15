@@ -10,12 +10,14 @@ export function* fetchCollections() {
     try {
         const response = yield call(getCollections, config)
         const payload = yield response.json()
+
         if (response.ok) {
-            yield put(CollectionActions.requestCollectionListSuccess(payload))
+          
+          yield put(CollectionActions.requestCollectionListSuccess(payload))
         } else {
-            yield put(CartActions.requestCollectionListFail())
+          yield put(CartActions.requestCollectionListFail())
         }
-    } catch (e) {
+      } catch (e) {
         console.log('error', e)
     }
 }

@@ -31,7 +31,7 @@ class ShoppingCart extends React.Component {
   }
 
   onPress = () => {
-    console.log('-- --- -- -- -- - - -- ->',this.props.navigation);
+
     if(this.props.isLogin){
       this.props.navigation.navigate('Payment',{screen:'PaymentScreen',params:{}})
     }else{

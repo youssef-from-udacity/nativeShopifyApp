@@ -80,53 +80,43 @@ export const getProduct = (config, id) => {
 
 
 export const getProductByHandle = (config, handle) => {
-    const query = {
-        productByHandle: {
-            __args: {
-                handle: handle
-            },
-            title: true,
-            descriptionHtml: true,
-            description: true,
-            id: true,
-            availableForSale: true,
-            productType: true,
-            images: {
-                __args: {
-                    first: 250
-                },
-                edges: {
-                    node: {
-                        id: true,
-                        originalSrc: true
-                    }
-                }
-            },
-            variants: {
-                __args: {
-                    first: 100
-                },
-                edges: {
-                    node: {
-                        id: true,
-                        price: true,
-                        availableForSale: true,
-                        title: true,
-                        image: {
-                            id: true
-                        },
-                        selectedOptions: {
-                            name: true,
-                            value: true
-                        }
-                    }
-                }
+    const query = `{
+      product(handle: "${handle}") {
+        title
+        descriptionHtml
+        description
+        id
+        availableForSale
+        productType
+        images(first: 250) {
+          edges {
+            node {
+              id
+              originalSrc
             }
-
+          }
         }
+        variants(first: 100) {
+          edges {
+            node {
+              id
+              price
+              availableForSale
+              title
+              image {
+                id
+              }
+              selectedOptions {
+                name
+                value
+              }
+            }
+          }
+        }
+      }
     }
-    const graphQLQuery = '{' + jsonToGraphQLQuery(query, { pretty: true }) + '}'
-    return fetchShopifyGraphql(config, graphQLQuery)
+    `
+    return fetchShopifyGraphql(config, query)
 }
 
 export const getProductFromCollection = (config, id, cursor, sortKey, reverse) => {
@@ -279,7 +269,95 @@ export const getProductListBySearch = (config, search, cursor, sortKey, reverse)
     const graphQLQuery = '{' + jsonToGraphQLQuery(query, { pretty: true }) + '}'
     return fetchShopifyGraphql(config, graphQLQuery)
 }
-
+const getCollection = `query {
+  shop: shop {
+    moneyFormat
+    name
+    primaryDomain {
+      url
+    }
+  }
+  bestSelling: products(first: 10, sortKey: BEST_SELLING) {
+    edges {
+      cursor
+      node {
+        id
+        title
+        priceRange {
+          maxVariantPrice {
+            amount
+            currencyCode
+          }
+          minVariantPrice {
+            amount
+            currencyCode
+          }
+        }
+        images(first: 1) {
+          edges {
+            node {
+              originalSrc
+            }
+          }
+        }
+      }
+    }
+  }
+  collections: collections(first: 250) {
+    edges {
+      node {
+        id
+        handle
+        description
+        title
+        image {
+          originalSrc
+        }
+        products(first: 1) {
+          edges {
+            cursor
+            node {
+              images(first: 1) {
+                edges {
+                  node {
+                    originalSrc
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  createdAt: products(first: 10, sortKey: CREATED_AT) {
+    edges {
+      cursor
+      node {
+        id
+        title
+        priceRange {
+          maxVariantPrice {
+            amount
+            currencyCode
+          }
+          minVariantPrice {
+            amount
+            currencyCode
+          }
+        }
+        images(first: 1) {
+          edges {
+            node {
+              originalSrc
+            }
+          }
+        }
+      }
+    }
+  }
+}
+`
 export const getCollections = (config) => {
     const query = {
         shop: {
@@ -393,7 +471,7 @@ export const getCollections = (config) => {
         }
     }
     const graphQLQuery = '{' + jsonToGraphQLQuery(query, { pretty: true }) + '}'
-    return fetchShopifyGraphql(config, graphQLQuery)
+    return fetchShopifyGraphql(config, getCollection)
 }
 
 export const getCheckout = (config, id) => {

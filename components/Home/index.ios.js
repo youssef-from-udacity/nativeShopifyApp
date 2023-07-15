@@ -22,10 +22,14 @@ export class HomeComponent extends React.Component {
                 const urls = url.split('/');
                 const handle = urls[urls.length-1]
                 this.props.handleProductClick(handle)
+                this.setState({...this.state,key: this.state.key + 1})
+
             }else if(url.includes('collections') ){
                 const urls = url.split('/');
                 const handle = urls[urls.length-1]
                 this.props.handleCollectionClick(handle)
+                this.setState({...this.state,key: this.state.key + 1})
+
             }
             return false
         }else{
@@ -35,7 +39,7 @@ export class HomeComponent extends React.Component {
 
     componentDidUpdate(prevProps){
         if(prevProps.shopUrl != this.props.shopUrl){
-            this.setState({key: this.state.key + 1})
+          this.setState({...this.state,key: this.state.key + 1})
         }
     }
 
@@ -54,7 +58,6 @@ export class HomeComponent extends React.Component {
                 key = {this.state.key}
                 source={{uri: this.props.shopUrl}}
                 injectedJavaScript={jsCode}
-                javaScriptEnabledAndroid={true}
                 onShouldStartLoadWithRequest={this.shouldStartLoadWithRequest}
                 startInLoadingState={true}
                 renderLoading={this.loadingIndicator}

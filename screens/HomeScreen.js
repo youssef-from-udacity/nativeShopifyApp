@@ -1,66 +1,44 @@
 
-import React, {Component} from 'react'
+import React, { Component, useEffect, useRef } from 'react'
 
 
 import { connect } from 'react-redux'
 import { HomeComponent } from '../components/Home'
 import { SafeAreaView, View, Text, ScrollView } from 'react-native';
-import { getName, getShopUrl, getFinishLoad} from '../redux/shop'
+import { getName, getShopUrl, getFinishLoad } from '../redux/shop'
 //import HomeCategoriesContainer from '../containers/HomeCategories'
 //import BestSellingProductsContainer from '../containers/BestSellingProducts'
 //import LatestProductsContainer from '../containers/LatestProducts'
-//import { theme } from '../constants/Theme';
+import { theme } from '../constants/Theme';
 //import HomePlaceholder from '../components/Placeholder/HomePlaceholder';
 import { getHeaderBackgroundColor } from '../redux/config';
 
-class Home extends Component {
-  static navigationOptions =( { navigation } ) => {
 
-    return(
-      {
-        headerTitle: navigation.state.params ? navigation.state.params.title : '',
-        headerStyle: {
-          backgroundColor:navigation.state.params ? navigation.state.params.color : 'white'
-        },
+function Home(props) {
+  const prevPropsRef = useRef(null);
+
+  useEffect(() => {
+    if (prevPropsRef.current) {
+      const prevProps = prevPropsRef.current;
+
+      if (prevProps.shopName != props.shopName) {
+        props.navigation.setParams({ title: props.shopName });
       }
-    )
-  }
-
-  componentDidMount(){
-    this.props.navigation.setParams({ color: this.props.headerBackroundColor, title: this.props.shopName });
-    
-  }
-  componentDidUpdate(prevProps){
-    if (prevProps.shopName != this.props.shopName){
-      this.props.navigation.setParams({title: this.props.shopName });
     }
-  }
+    prevPropsRef.current = props;
+  }, [props]);
 
-  renderHomePage = (finishLoad) => {
-    console.log('renderHomePage');
-
-    if(finishLoad){
-      return (
-        <ScrollView style = {{backgroundColor: theme.listBackground}}>
-          <HomeCategoriesContainer/>
-          <BestSellingProductsContainer/>
-          <LatestProductsContainer/>
-        </ScrollView>
-      )
-    }else{
-      return (<HomePlaceholder/>)
-    }
-
-  }
-
+  useEffect(() => {
+    props.navigation.setParams({ color: props.headerBackroundColor, title: props.shopName });
+  }, [])
   handleProductClick = (handle) => {
 
-    this.props.navigation.navigate('Product',{
+    props.navigation.navigate('Product', {
       screen: 'ProductDetailScreen',
       params: {
         handle: handle
       }
-     })
+    })
   }
   handleCollectionClick = (handle) => {
     this.props.navigation.navigate('ProductList', {
@@ -68,18 +46,25 @@ class Home extends Component {
         handle: handle
       }
     })
-}
-
-  render() {
-    
-    return (
-      
-      
-      <HomeComponent handleProductClick={this.handleProductClick} handleCollectionClick={this.handleCollectionClick} shopUrl = {this.props.shopUrl}/>
-      
-    );
   }
+  renderHomePage = (finishLoad) => {
 
+    if (finishLoad) {
+      return (
+        <ScrollView style={{ backgroundColor: theme.listBackground }}>
+          <HomeCategoriesContainer />
+          <BestSellingProductsContainer />
+          <LatestProductsContainer />
+        </ScrollView>
+      )
+    } else {
+      return (<HomePlaceholder />)
+    }
+
+  }
+  return (
+    <HomeComponent handleProductClick={handleProductClick} handleCollectionClick={handleCollectionClick} shopUrl={props.shopUrl} />
+  )
 }
 
 const mapStateToProps = state => {

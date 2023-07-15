@@ -241,6 +241,11 @@ const normalizeProductDetail = (graphQLProduct) => {
     const images = node.images.edges.map(image => {
         const node = image.node
         const id = node.id
+        console.log('[id] --- -- -- - -- ->',JSON.stringify({
+          [id]: {
+              originalSrc: node.originalSrc,
+          }
+      }))
         return({
             [id]: {
                 originalSrc: node.originalSrc,

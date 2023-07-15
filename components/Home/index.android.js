@@ -12,20 +12,19 @@ export class HomeComponent extends React.Component {
     loadingIndicator = () => {
       return (
           <HomePlaceholder/>
-
         )
     }
 
-    navigationStateChangedHandler = (navigation) => {
-  
-        const url = navigation.url.replace(/\/+$/, "");
-        const loading = navigation.loading
+    navigationStateChangedHandler = (navState) => {
+
+        const url = navState.url.replace(/\/+$/, "");
+        const loading = navState.loading
        if(!loading){
-           this.setState({showLoading: false})
+           this.setState({...this.state,showLoading: false})
        }
 
         if(url != this.props.shopUrl){
-           this.setState({key: this.state.key + 1})
+           this.setState({...this.state,key: this.state.key + 1})
         }
         if (url.includes('products') ) {
             const urls = url.split('/');
@@ -39,9 +38,10 @@ export class HomeComponent extends React.Component {
         }
       };
     onMessage = (event) => {
+
         if(event.includes("Opal") && event.includes(",")){
             const coordinate = event.split(',');
-            this.setState({ sx: coordinate[0], sy: coordinate[1], showLoading: true})
+            this.setState({...this.state, sx: coordinate[0], sy: coordinate[1], showLoading: true})
         }
        
         
@@ -49,9 +49,20 @@ export class HomeComponent extends React.Component {
 
     componentDidUpdate(prevProps){
         if(prevProps.shopUrl != this.props.shopUrl){
-            this.setState({key: this.state.key + 1})
+            this.setState({...this.state,key: this.state.key + 1})
         }
     }
+    //handleShouldStartLoadWithRequest = (event) => {
+    //  console.log('event -- - - -- - - ->',event)
+    //  this.navigationStateChangedHandler(event);
+    //  
+    //  // Allow other types of requests
+    //  return false;
+    //};
+    handleShouldStartLoadWithRequest = (navigator) => {
+      this.navigationStateChangedHandler(navigator);
+      return false;
+    };
 
 
     render() {
@@ -83,6 +94,8 @@ export class HomeComponent extends React.Component {
                 onMessage={(event) => this.onMessage(event.nativeEvent.data)}
                 startInLoadingState={true}
                 renderLoading={this.loadingIndicator}
+                onShouldStartLoadWithRequest={this.handleShouldStartLoadWithRequest}
+
                 ref={c => {
                     this.WebView = c;
                   }}

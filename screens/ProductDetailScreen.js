@@ -6,7 +6,7 @@ import AddToCart from '../containers/AddToCart'
 import ProductDetailAction, { getTitle, getIsFetching } from '../redux/productDetail'
 import { connect } from 'react-redux'
 import { theme } from '../constants/Theme'
-import ProductDetailPlaceholder from '../components/Placeholder/ProductDetailPlaceholder';
+import ProductDetailPlaceholder,{BannerPlaceholder} from '../components/Placeholder/ProductDetailPlaceholder';
 
 function ProductDetailScreen (props){
 
@@ -22,23 +22,17 @@ function ProductDetailScreen (props){
   },[])
 
   _renderProductDetail = (isFetching) => {
-    if (isFetching){
-      return(
-        <ProductDetailPlaceholder/>
-      )
-    }else{
+
       return (
           <View style = {{backgroundColor: theme.listBackground}}>
             <View style = {{height: 500}}>
-              <ProductImage/>
+            {isFetching?<BannerPlaceholder/>:<ProductImage/>}
             </View>
-
-              <ProductDetail navigation={props.navigation} />
+            {isFetching?<ProductDetailPlaceholder/>:<ProductDetail navigation={props.navigation} />}
 
           </View>
         
       )
-    }
   }
   return (
     <SafeAreaView style = {{flex:1}}>

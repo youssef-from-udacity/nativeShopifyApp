@@ -75,7 +75,7 @@ export const getIsLoading = (rootState) => {
 //Normalize
 
 const normalizeCollectionList = (graphQLCollection) => {
-    const edges = graphQLCollection.data.shop.collections.edges
+    const edges = graphQLCollection.data.collections.edges
 
     const listsByIds = edges.map(edges => {
         const node = edges.node

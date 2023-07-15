@@ -8,7 +8,7 @@ export const AddToCart = ({ isError, addToCart, price, isAvailableForSale, isAdd
             <TextTotal >Total </TextTotal>
             <TextPrice>{price}</TextPrice>
             <ButtonView >
-              <AddToCartButton disabled={!isAvailableForSale || isAddingProduct || isError} style = {{backgroundColor: isAvailableForSale && !isAddingProduct && !isError ? buttonBackgroundColor : 'lightgrey'}}onPress={() => addToCart()}>
+              <AddToCartButton disabled={!isAvailableForSale || isAddingProduct || isError} style = {{backgroundColor: isAvailableForSale && !isAddingProduct && !isError ? buttonBackgroundColor : 'lightgrey'}} onPress={() => addToCart()}>
                 <TextButton style = {{color: buttonTextColor}}>{isAvailableForSale ? 'Add to cart' : 'Sold Out'}</TextButton>
               </AddToCartButton>
             </ButtonView>

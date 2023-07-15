@@ -6,8 +6,9 @@ export const StyledTouchableOpacity = styled(TouchableOpacity)`
     background-color:white;
     padding: 5px;
     border-radius: 5px;
-    border-width: 1px;
-    border-color: grey;
+    border-width: 2px;
+    margin: 5px;
+
 `
 export const StyledView = styled(View)`
     flex: 1;

@@ -38,8 +38,8 @@ const requestShopDetail = (state) => {
 }
 const requestShopDetailSuccess = (state, action) => {
   const shop = action.payload.data.shop
-  const bestSellingProduct = normalizeProducts(shop)
-  const latestProduct = normalizeProducts(action.payload.data)
+  const bestSellingProduct = normalizeProducts(action.payload.data.bestSelling)
+  const latestProduct = normalizeProducts(action.payload.data.createdAt)
   return state.merge({
       isFetching: false,
       moneyFormat: shop.moneyFormat,
@@ -102,13 +102,13 @@ const normalizeProducts = (graphQLProducts) => {
   const node = graphQLProducts
 
 
-  const allProductIds = node.products.edges.map(edge => {
+  const allProductIds = node.edges.map(edge => {
       const node = edge.node
       const id = node.id
       return id
   })
 
-  const productByIds = node.products.edges.map(edge => {
+  const productByIds = node.edges.map(edge => {
       const cursor = edge.cursor
       const node = edge.node 
       const id = node.id

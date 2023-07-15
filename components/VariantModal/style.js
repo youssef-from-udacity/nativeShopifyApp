@@ -3,14 +3,8 @@ import { View, TouchableOpacity, Text, Modal, FlatList, Image, Animated} from 'r
 
 
 export const StyledImage = styled(Image)`
-    height: 100px;
-    width: 100px;
-    top: -50
-    border-radius: 5px;
-    border-color: ${props => props.theme.listBackground};
-    background-color: white;
-    border-width:1px;
-    
+    height: 100%;
+    width: 100%;
 `
 export const HeaderView = styled(View)`
     flex: 1;
@@ -66,7 +60,7 @@ export const ModalHeader = styled(View)`
 export const ModalContent= styled(View)`
     background-color: ${props => props.theme.listBackground};
     height: 100%;
-    top: -20;
+    top: -20px;
 `
 
 export const StyledFlatList = styled(FlatList)`

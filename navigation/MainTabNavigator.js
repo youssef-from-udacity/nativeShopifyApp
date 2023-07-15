@@ -41,7 +41,12 @@ const MainStack = () => {
         <TabBarBottomContainer {...props} style={{ borderTopColor: '#605F60' }} />
       )}
     >
-      <Tab.Screen name="Home" component={HomeScreen} options={{
+      <Tab.Screen name="Home" component={HomeScreen}
+      options={(navigation)=>({
+        headerTitle: navigation.state?.params ? navigation.state.params.title : '',
+        headerStyle: {
+          backgroundColor:navigation.state?.params ? navigation.state.params.color : 'white'
+        },
         tabBarLabel: 'Home',
         tabBarIcon: ({ focused }) => (<Icon
           focused={focused}
@@ -49,7 +54,8 @@ const MainStack = () => {
           icon='Ionicon'
         />
         )
-      }} />
+      })}
+       />
       
       <Tab.Screen name="CollectionStack" component={CollectionScreen} options={{
         tabBarLabel: 'Search',

@@ -38,6 +38,7 @@ export default class ProductDescriptionModal extends React.Component {
                         </ModalHeader>
                         <ModalContent>
                         <WebView
+                            originWhitelist={['*']}
                             source={{html: this.props.descriptionHtml}}
                             scalesPageToFit={false}
                         />

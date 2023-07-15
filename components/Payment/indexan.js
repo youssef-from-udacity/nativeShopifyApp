@@ -28,10 +28,10 @@ export class PaymentComponent extends React.Component {
                 <WebView
                 source={{
                     uri: this.props.url,
-                    //headers:{
-                    //    'X-Shopify-Customer-Access-Token': this.props.userAccessToken,
-                    //    'Cookie': ''
-                    //}
+                    headers:{
+                        'X-Shopify-Customer-Access-Token': this.props.userAccessToken,
+                        'Cookie': ''
+                    }
                 }}
                 javaScriptEnabledAndroid={true}
                 onNavigationStateChange={this.navigationStateChangedHandler}

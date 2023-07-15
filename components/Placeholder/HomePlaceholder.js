@@ -1,9 +1,10 @@
 import React from "react";
-import {View, Text} from 'react-native'
+import {View, Text, Dimensions} from 'react-native'
 import { Main } from '../Styled'
 import Placeholder from "rn-placeholder";
 import { theme } from "../../constants/Theme";
 
+const screenWidth = Dimensions.get('window').width;
 const CollectionItem = props => {
   const style = { backgroundColor: '#e3e3e3', width: "100%", height: '100%'};
   return ( 
@@ -13,12 +14,13 @@ const CollectionItem = props => {
 CollectionItemPlaceholder = Placeholder.connect(CollectionItem);
 
 const CollectionContainer = props => {
+  const halfWidth = screenWidth * 0.5 - 10;
   return (
-        <View style = {{width: "100%", flexDirection: 'row'}}>
-            <View style = {{backgroundColor: 'white',width: 200,height:200, marginLeft: 10, padding: 5}}>
+        <View style = {{width: "100%", flexDirection: 'row',justifyContent: 'center'}}>
+            <View style = {{backgroundColor: 'white',width: halfWidth,height:200, padding: 5}}>
               <CollectionItemPlaceholder animate="fade"/>
             </View>
-            <View style = {{backgroundColor: 'white',width: 200,height:200, marginLeft: 10, padding: 5}}>
+            <View style = {{backgroundColor: 'white',width: halfWidth,height:200, marginLeft: 10, padding: 5}}>
               <CollectionItemPlaceholder animate="fade"/>
               </View>
         </View>
@@ -64,7 +66,7 @@ const PricePlaceholder = Placeholder.connect(Price);
 
 const ProductListContent = () => {
   return (
-    <View style = {{flexDirection: 'row', flexWrap: 'wrap', left: 150, marginTop: 25}}>
+    <View style = {{flexDirection: 'row', flexWrap: 'wrap', left: 0, marginTop: 25}}>
 
     <View style = {{flex:1, padding: 5}}>
       <View style = {{backgroundColor: 'white'}}>
