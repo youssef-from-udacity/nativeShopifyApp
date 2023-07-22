@@ -266,10 +266,39 @@ export const getProductListBySearch = (config, search, cursor, sortKey, reverse)
 
 
     }
+    const myQuery = `query($search: "${search}", $cursor: ${cursor ? cursor : null}, $sortKey: ${sortKey ? new EnumType(sortKey) : null}, $reverse: ${reverse ? reverse : null}) {
+      products(first: 30, query: $search, after: $cursor, sortKey: $sortKey, reverse: $reverse) {
+        edges {
+          cursor
+          node {
+            id
+            title
+            priceRange {
+              maxVariantPrice {
+                amount
+                currencyCode
+              }
+              minVariantPrice {
+                amount
+                currencyCode
+              }
+            }
+            images(first: 1) {
+              edges {
+                node {
+                  originalSrc
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    `
     const graphQLQuery = '{' + jsonToGraphQLQuery(query, { pretty: true }) + '}'
-    return fetchShopifyGraphql(config, graphQLQuery)
+    return fetchShopifyGraphql(config, myQuery)
 }
-const getCollection = `query {
+const collectionsQuery = `query {
   shop: shop {
     moneyFormat
     name
@@ -359,170 +388,52 @@ const getCollection = `query {
 }
 `
 export const getCollections = (config) => {
-    const query = {
-        shop: {
-            moneyFormat: true,
-            name: true,
-            primaryDomain: {
-                url: true,
-            },
-            collections: {
-                __args: {
-                    first: 250
-                },
-                edges: {
-                    node: {
-                        id: true,
-                        handle: true,
-                        description: true,
-                        title: true,
-                        image: {
-                            originalSrc: true,
-                        },
-                        products: {
-                            __args: {
-                                first: 1
-                            },
-                            edges: {
-                                cursor: true,
-                                node: {
-                                    images: {
-                                        __args: {
-                                            first: 1
-                                        },
-                                        edges: {
-                                            node: {
-                                                originalSrc: true
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            products: {
-                __args: {
-                    first: 10,
-                    sortKey: new EnumType('BEST_SELLING')
-                },
-                edges: {
-                    cursor: true,
-                    node: {
-                        id: true,
-                        title: true,
-                        priceRange: {
-                            maxVariantPrice: {
-                                amount: true,
-                                currencyCode: true,
-                            },
-                            minVariantPrice: {
-                                amount: true,
-                                currencyCode: true,
-                            },
-                        },
-                        images: {
-                            __args: {
-                                first: 1
-                            },
-                            edges: {
-                                node: {
-                                    originalSrc: true
-                                }
-                            }
-                        },
-                    }
-                }
-            }
-        },
-        products: {
-            __args: {
-                first: 10,
-                sortKey: new EnumType('CREATED_AT')
-            },
-            edges: {
-                cursor: true,
-                node: {
-                    id: true,
-                    title: true,
-                    priceRange: {
-                        maxVariantPrice: {
-                            amount: true,
-                            currencyCode: true,
-                        },
-                        minVariantPrice: {
-                            amount: true,
-                            currencyCode: true,
-                        },
-                    },
-                    images: {
-                        __args: {
-                            first: 1
-                        },
-                        edges: {
-                            node: {
-                                originalSrc: true
-                            }
-                        }
-                    },
-                }
-            }
-        }
-    }
-    const graphQLQuery = '{' + jsonToGraphQLQuery(query, { pretty: true }) + '}'
-    return fetchShopifyGraphql(config, getCollection)
+    
+    return fetchShopifyGraphql(config, collectionsQuery)
 }
 
 export const getCheckout = (config, id) => {
-    const query = {
-        node: {
-            __args: {
-                id: id
-            },
-            __on: {
-                __typeName: "Checkout",
-                id: true,
-                totalPrice: true,
-                subtotalPrice: true,
-                webUrl: true,
-                shippingAddress: {
-                    address1: true,
-                    address2: true,
-                    city: true,
-                },
-                order: {
-                    id: true,
-                },
-                lineItems: {
-                    __args: {
-                        first: 250
-                    },
-                    edges: {
-                        node: {
-                            id: true,
-                            title: true,
-                            quantity: true,
-                            variant: {
-                                title: true,
-                                id: true,
-                                price: true,
-                                image: {
-                                    originalSrc: true,
-                                },
-                                product: {
-                                    id: true,
-                                }
-                            }
-                        }
-                    }
-                },
 
+    const query = `query($checkoutId: ID = "${id}"){
+      node(id: $checkoutId) {
+        ... on Checkout {
+          id
+          totalPrice
+          subtotalPrice
+          webUrl
+          shippingAddress {
+            address1
+            address2
+            city
+          }
+          order {
+            id
+          }
+          lineItems(first: 250) {
+            edges {
+              node {
+                id
+                title
+                quantity
+                variant {
+                  title
+                  id
+                  price
+                  image {
+                    originalSrc
+                  }
+                  product {
+                    id
+                  }
+                }
+              }
             }
+          }
         }
-    }
-    const graphQLQuery = '{' + jsonToGraphQLQuery(query, { pretty: true }) + '}'
-    return fetchShopifyGraphql(config, graphQLQuery)
+      }
+    }   
+    `
+    return fetchShopifyGraphql(config, query)
 }
 
 export const getShopDetail = (config) => {

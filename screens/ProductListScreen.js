@@ -2,18 +2,17 @@ import React from 'react';
 import { StyledSafeAreaView } from '../components/Styled'
 import { View, Text } from 'react-native'
 import { connect } from 'react-redux'
-import ProductListActions  from '../redux/productList'
-import ProductListContainer  from '../containers/ProductList'
+import ProductListActions from '../redux/productList'
+import ProductListContainer from '../containers/ProductList'
 import SearchContainer from '../containers/Search'
 import { getEndOfProduct, getIsLoading, getProductCount } from '../redux/productList'
-import { theme } from '../constants/Theme'
 import ProductListPlaceholder from '../components/Placeholder/ProductListPlaceholder'
-import  FilterTab  from '../components/FilterTab';
+import FilterTab from '../components/FilterTab';
 import { getPrimaryColor, getHeaderBackgroundColor, getHeaderBackIconColor } from '../redux/config'
-import HeaderBackButton  from '../containers/HeaderBackButton'
+
 
 class ProductList extends React.Component {
-  constructor(props){
+  constructor(props) {
     super(props)
     this.state = {
       id: null,
@@ -25,46 +24,43 @@ class ProductList extends React.Component {
     }
   }
 
-
-
-
-  componentDidMount(){
-    this.props.navigation.setOptions({ searchPressed: this.searchPressed, beforeFocus: this.beforeFocus, hideBackButton: false, afterCancel: this.afterCancel });
-    const id = this.props.route?.params?.id; 
-    if (id){
-      this.setState({id: id, mode: 'ID'})
+  componentDidMount() {
+    this.props.navigation.setOptions({
+      headerShown: true,
+      headerTitle: ()=>{
+        return <SearchContainer defaultValue="" searchPressed={this.searchPressed} beforeFocusSearch={this.beforeFocus} afterCancel={this.afterCancel} />
+      },
+    });
+    
+    const id = this.props.route?.params?.id;
+    if (id) {
+      this.setState({ id: id, mode: 'ID' })
       this.props.requestProductListFromCollection(id, this.state.sortKey, this.state.reverse)
-    }else{
+    } else {
       const handle = this.props.route?.params?.handle;
-      if(handle){
-        this.setState({handle: handle, mode: 'HANDLE'})
+      if (handle) {
+        this.setState({ handle: handle, mode: 'HANDLE' })
         this.props.requestProductListFromCollectionByHandle(handle, this.state.sortKey, this.state.reverse)
-      }else{
+      } else {
         const query = this.props.route?.params?.query;
-        this.setState({search: query, mode: 'SEARCH'})
+        this.setState({ search: query, mode: 'SEARCH' })
         this.props.navigation.setParams({ defaultValue: query });
-        if(query.length > 0){
+        if (query.length > 0) {
           this.props.requestProductListBySearch(query, this.state.sortKey, this.state.reverse)
         }
       }
     }
+    
   }
 
-  componentWillUnmount(){
+  componentWillUnmount() {
     this.props.clearProductList()
   }
 
-  beforeFocus = () => {
-    this.props.navigation.setParams({ hideBackButton: true });
-  }
-  afterCancel = () => {
-    this.props.navigation.setParams({ hideBackButton: false });
-  }
 
   searchPressed = (text) => {
-    this.props.navigation.setParams({ hideBackButton: true });
-    if(text != ''){
-      this.setState({search: text, mode: 'SEARCH'})
+    if (text != '') {
+      this.setState({ search: text, mode: 'SEARCH' })
       this.props.clearProductList()
       this.props.requestProductListBySearch(text, this.state.sortKey, this.state.reverse)
     }
@@ -72,99 +68,100 @@ class ProductList extends React.Component {
   }
 
   loadMore = () => {
-    if(this.state.mode === 'ID'){
+    if (this.state.mode === 'ID') {
       this.props.requestProductListFromCollection(this.state.id, this.state.sortKey, this.state.reverse)
-    }else if(this.state.mode === 'HANDLE'){
+    } else if (this.state.mode === 'HANDLE') {
       this.props.requestProductListFromCollectionByHandle(this.state.handle, this.state.sortKey, this.state.reverse)
-    }else{
+    } else {
       this.props.requestProductListBySearch(this.state.search, this.state.sortKey, this.state.reverse)
     }
   }
   renderEmptyList = () => {
-    return(
-        <View style = {{height: '100%', alignItems: 'center', justifyContent: 'center'}}>
-          <Text>No product found.</Text>
-        </View>
+    return (
+      <View style={{ height: '100%', alignItems: 'center', justifyContent: 'center' }}>
+        <Text>No product found.</Text>
+      </View>
     )
-} 
+  }
 
 
   _renderContent = (isLoading, productCount) => {
-    if(isLoading && productCount === 0){
-      return <ProductListPlaceholder/>
-    }else if (!isLoading && productCount === 0){
+    if (isLoading && productCount === 0) {
+      return <ProductListPlaceholder />
+    } else if (!isLoading && productCount === 0) {
       //return empty
       return this.renderEmptyList()
-    }else{
-      return <ProductListContainer endReached={this.loadMore}/>
+    } else {
+      return <ProductListContainer endReached={this.loadMore} />
     }
   }
   sortProduct = (id, sort, reverse) => {
-    if(this.state.mode === 'ID'){
+    if (this.state.mode === 'ID') {
       this.props.requestProductListFromCollection(id, sort, reverse)
-    }else if(this.state.mode === 'HANDLE'){
+    } else if (this.state.mode === 'HANDLE') {
       this.props.requestProductListFromCollectionByHandle(id, sort, reverse)
-    }else{
+    } else {
       this.props.requestProductListBySearch(id, sort, reverse)
     }
   }
 
   sortPressed = (sort) => {
     this.props.clearProductList()
-    switch (sort.value){
+    switch (sort.value) {
       case 1:
         //Featured does not have an api
-        
+
         break;
       case 2:
         //Best Selling  
         this.sortProduct(this.state.id, 'BEST_SELLING', false)
-        
-        this.setState({sortKey: 'BEST_SELLING', reverse: false})
+
+        this.setState({ sortKey: 'BEST_SELLING', reverse: false })
         break;
       case 3:
         //Alphabetically, A - Z 
         this.sortProduct(this.state.id, 'TITLE', false)
-        this.setState({sortKey: 'TITLE', reverse: false})
+        this.setState({ sortKey: 'TITLE', reverse: false })
         break;
       case 4:
         //Alphabetically, Z - A 
         this.sortProduct(this.state.id, 'TITLE', true)
-        this.setState({sortKey: 'TITLE', reverse: true})
+        this.setState({ sortKey: 'TITLE', reverse: true })
         break;
       case 5:
         this.sortProduct(this.state.id, 'PRICE', false)
-        this.setState({sortKey: 'PRICE', reverse: false})
+        this.setState({ sortKey: 'PRICE', reverse: false })
         //Price, low to high
         break;
       case 6:
         this.sortProduct(this.state.id, 'PRICE', true)
-        this.setState({sortKey: 'PRICE', reverse: true})
+        this.setState({ sortKey: 'PRICE', reverse: true })
         //Price, high to low
         break;
       case 7:
         //Date, new to old
         this.sortProduct(this.state.id, 'CREATED', false)
-        this.setState({sortKey: 'CREATED', reverse: false})
+        this.setState({ sortKey: 'CREATED', reverse: false })
         break;
       case 8:
         //Date, old to new
         this.sortProduct(this.state.id, 'CREATED', true)
-        this.setState({sortKey: 'CREATED', reverse: true})
+        this.setState({ sortKey: 'CREATED', reverse: true })
         break;
     }
-    
-  
+
+
   }
 
   render = () => {
     return (
-        <StyledSafeAreaView>
-          <View>
-            {this._renderContent(this.props.isLoading, this.props.productCount)}
-            <FilterTab sortPressed={this.sortPressed} primaryColor= {this.props.primaryColor}/>
-          </View>
-        </StyledSafeAreaView>
+      <StyledSafeAreaView>
+        <View>
+        
+          {this._renderContent(this.props.isLoading, this.props.productCount)}
+          <FilterTab sortPressed={this.sortPressed} primaryColor={this.props.primaryColor} />
+        </View>
+      </StyledSafeAreaView>
     )
   }
 

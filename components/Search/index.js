@@ -1,66 +1,64 @@
-import React from 'react';
+import React,{useState, useRef} from 'react';
 import { StyledView } from './style'
 import Search from '../react-native-search-box/index';
 import { theme } from '../../constants/Theme'
+import { View } from 'react-native';
+import { useIsFocused } from '@react-navigation/native';
 
-export default class SearchBox extends React.Component {
-  constructor(props){
-    super(props)
-    this.state = {searchInput: this.props.defaultValue}
-  }
-  afterSearch = () => {
+
+export default function SearchBox (props){
+  const [searchInput,setSearchInput] = useState(props.defaultValue );
+  const isFocused = useIsFocused();
+  const searchBoxRef = useRef();
+  
+  const afterSearch = () => {
     return new Promise((resolve, reject) => {
-        this.props.onPressSearch(this.state.searchInput)
+      props.onPressSearch(searchInput)
 
-        resolve();
+      resolve();
     });
   }
-      // Important: You must return a Promise
-  beforeFocus = () => {
-        return new Promise((resolve, reject) => {
-          if(this.props.beforeFocusSearch){
-            this.props.beforeFocusSearch() 
-          }        
-          resolve()
-        });
+  // Important: You must return a Promise
+  const beforeFocus = () => {
+    return new Promise((resolve, reject) => {
+      if (props.beforeFocusSearch) {
+        props.beforeFocusSearch()
+      }
+      resolve()
+    });
   }
-  afterCancel = () => {
-      return new Promise((resolve, reject) => {
-        if(this.props.afterCancel){
-          this.props.afterCancel() 
-        }
-        
-          resolve();
-      });
+  const afterCancel = () => {
+    return new Promise((resolve, reject) => {
+      if (props.afterCancel) {
+        props.afterCancel()
+      }
+
+      resolve();
+    });
   }
-  changeTextInput = (text) => {
-    this.setState({searchInput: text})
+  const changeTextInput = (text) => {
+    setSearchInput(text)
   }
 
-  render() {
-        return (
-            <StyledView>
-                <Search
-                    ref="search_box"
-                    backgroundColor= {this.props.headerBackgroundColor}
-                    afterSearch= {this.afterSearch}
-                    afterCancel= {this.afterCancel}
-                    beforeFocus={this.beforeFocus}
-                    returnKeyType= "search"
-                    onChangeText= {(text) => this.changeTextInput(text)}
-                    defaultValue={this.props.defaultValue}
-                    titleCancelColor= {this.props.headerIconColor}
-                   
-                    /**
-                    * There many props that can customizable
-                    * Please scroll down to Props section
-                    */
-                />
-            </StyledView>
 
-          
-        )
-  }
+    return (
+      isFocused &&
+      <StyledView>
+        <View style={{ backgroundColor: 'white' }}>
+          <Search
+            ref={searchBoxRef}
+            backgroundColor={props.headerBackgroundColor}
+            afterSearch={afterSearch}
+            afterCancel={afterCancel}
+            beforeFocus={beforeFocus}
+            returnKeyType="search"
+            onChangeText={(text) => changeTextInput(text)}
+            defaultValue={props.defaultValue}
+            titleCancelColor={props.headerIconColor}
+          />
+        </View>
+      </StyledView>
+    )
 
 }
 

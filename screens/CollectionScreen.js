@@ -1,52 +1,52 @@
 import React from 'react';
-import { StyledSafeAreaView} from '../components/Styled'
+import { StyledSafeAreaView } from '../components/Styled'
 import { connect } from 'react-redux'
-import  CollectionListContainer  from '../containers/CollectionList'
+import CollectionListContainer from '../containers/CollectionList'
 import SearchContainer from '../containers/Search'
 import CollectionPlaceholder from '../components/Placeholder/CollectionPlaceholder'
 import { getIsLoading } from '../redux/collection'
 import { getHeaderBackgroundColor, getHeaderBackIconColor } from '../redux/config';
 
+
 class Collection extends React.Component {
-  constructor(props){
+  constructor(props) {
     super(props)
     this.state = {
       id: null,
       mode: 'id',
       handle: null,
       search: null,
+      showSearch: false
     }
   }
 
 
-
-  static navigationOptions =  ({navigation}) => ({
-    headerTitle: <SearchContainer defaultValue="" searchPressed={(text) => {navigation.navigate("ProductListScreen",{query: text})}}/>,
-    headerStyle: {
-      width: '100%',
-      backgroundColor:navigation.state.params ? navigation.state.params.color : 'white'
-    },
-
-  });
-
-  componentDidMount(){
-    this.props.navigation.setParams({ color: this.props.headerBackgroundColor, headerContentColor: this.props.headerContentColor});
-    
+  componentDidMount() {
+    this.props.navigation.setParams({ color: this.props.headerBackgroundColor, headerContentColor: this.props.headerContentColor });
   }
+  handleFocus = () => {
+    this.setState({...this.state,showSearch: true})
+  };
 
+  handleBlur = () => {
+    this.setState({...this.state,showSearch: false})
+  };
   _renderContent = (isLoading) => {
-    if(isLoading){
-      return <CollectionPlaceholder/>
-    }else{
-      return <CollectionListContainer {...this.props.navigation}/>
+    if (isLoading) {
+      return <CollectionPlaceholder />
+    } else {
+      return <>
+        <SearchContainer defaultValue="" searchPressed={(text) => { this.props.navigation.navigate("ProductList", { screen:'ProductListScreen',params :{query: text }}) }} />
+        <CollectionListContainer {...this.props.navigation} />
+      </>
     }
   }
 
   render = () => {
     return (
-        <StyledSafeAreaView >
-          {this._renderContent(this.props.isLoading)}
-        </StyledSafeAreaView>
+      <StyledSafeAreaView>
+        {this._renderContent(this.props.isLoading)}
+      </StyledSafeAreaView>
     )
   }
 

@@ -48,7 +48,8 @@ class ShoppingCart extends React.Component {
     
   }
   componentDidMount(){
-    this.props.requestCartDetail()
+
+    //this.props.requestCartDetail()
 
   }
   componentDidUpdate(prevProps){

@@ -79,6 +79,7 @@ class Search extends PureComponent {
 
   // Required to support both react-native =>0.62 and <0.62
   getInputRef() {
+
     const { input_keyword } = this.refs
 
     return !!input_keyword._component
@@ -232,36 +233,36 @@ class Search extends PureComponent {
         this.props.keyboardShouldPersist === false ? Keyboard.dismiss() : null,
         Animated.timing(this.inputFocusWidthAnimated, {
           toValue: this.contentWidth - 10,
-          duration: 200,
+          duration: 0,
           useNativeDriver: false
         }).start(),
         Animated.timing(this.btnCancelAnimated, {
           toValue: this.contentWidth,
-          duration: 200,
+          duration: 0,
           useNativeDriver: false
         }).start(),
         this.props.keyboardShouldPersist === false
           ? Animated.timing(this.inputFocusPlaceholderAnimated, {
               toValue: this.middleWidth - this.props.placeholderCollapsedMargin,
-              duration: 200,
+              duration: 0,
               useNativeDriver: false
             }).start()
           : null,
         this.props.keyboardShouldPersist === false || isForceAnim === true
           ? Animated.timing(this.iconSearchAnimated, {
               toValue: this.middleWidth - this.props.searchIconCollapsedMargin,
-              duration: 200,
+              duration: 0,
               useNativeDriver: false
             }).start()
           : null,
         Animated.timing(this.iconDeleteAnimated, {
           toValue: 0,
-          duration: 200,
+          duration: 0,
           useNativeDriver: false
         }).start(),
         Animated.timing(this.shadowOpacityAnimated, {
           toValue: this.props.shadowOpacityCollapsed,
-          duration: 200,
+          duration: 0,
           useNativeDriver: false
         }).start()
       ]);

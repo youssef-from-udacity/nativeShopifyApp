@@ -69,7 +69,7 @@ export function* requestAddProductToCheckout() {
         const response = yield call(addProductToCheckout, config, variantId, variantCount, cartId)
         const payload = yield response.json()
         if(response.ok){
-            yield put(CartActions.requestAddProductToCheckoutSuccess(payload)) 
+            yield put(CartActions.requestAddProductToCheckoutSuccess()) 
 
         }else{
             yield put(CartActions.requestAddProductToCheckoutFail())
@@ -80,6 +80,8 @@ export function* requestAddProductToCheckout() {
 }
 
 export function* requestRemoveProductFromCheckout(action) {
+    
+  yield put(CartActions.requestCartDetail())
     const lineItemId = action.id
     const cartId = yield select(getId) 
     const config =  yield select(getConfig)

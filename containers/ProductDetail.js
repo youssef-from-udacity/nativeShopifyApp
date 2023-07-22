@@ -12,7 +12,7 @@ class ProductDetail extends React.Component {
     super(props)
   }
   navigateToCart = () => {
-    this.props.navigation.replace('Main',{screen: 'ShoppingCartStack',params:{screen: 'ShoppingCart'}})
+    this.props.navigation.replace('Main',{screen: 'ShoppingCart'})
   }
   navigateToProductDescription = () => {
     this.props.navigation.navigate('ProductDescriptionScreen')
@@ -31,7 +31,6 @@ class ProductDetail extends React.Component {
           isProductAdded={this.props.isProductAdded}
           navigateToCart={this.navigateToCart}
           resetIsAddedToCart={this.props.resetIsAddedToCart}
-          addToCart={this.addToCart}
           variantCount={this.props.variantCount}
           navigateToProductDescription={this.navigateToProductDescription}
         />
@@ -55,9 +54,9 @@ const mapStateToProps = state => {
 }
 const mapDispatchToProps = dispatch => {
   return {
-    addToCart: (product) => {
-      dispatch(CartActions.requestAddProductToCheckout(product))
-    },    
+    //addToCart: (product) => {
+      //dispatch(CartActions.requestAddProductToCheckout(product))
+    //},    
     resetIsAddedToCart: () => {
       dispatch(CartActions.resetIsAddedToCart())
     }
